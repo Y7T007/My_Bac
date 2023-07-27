@@ -53,10 +53,17 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import Cookies from 'js-cookie';
+
 
 // Images
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import api from "../../../Axios_api_cfg";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -65,6 +72,58 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
 
+  const [userInfos, setUserInfos] = useState({});
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const fetchInfosUser = async () => {
+      try {
+
+
+        const data = JSON.parse(localStorage.getItem('userInfos'));
+        console.log(data)
+        setUserInfos(data);
+        setUserName(data.name);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle other errors if needed
+      }
+    };
+
+    fetchInfosUser();
+  }, []);
+
+
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(string) {
+    const name = string ?? 'Wait Response';
+
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
   useEffect(() => {
     // Setting the navbar type
     if (fixedNavbar) {
@@ -134,7 +193,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
       />
     </Menu>
   );
-
+  const token = localStorage.getItem('jwt'); // Retrieve the JWT token from local storage
+  const decodedRoute = route.map((element) => decodeURIComponent(element));
   return (
     <AppBar
       position={absolute ? "absolute" : navbarType}
@@ -143,7 +203,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>
         <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+          <Breadcrumbs icon="home" title={decodedRoute[decodedRoute.length - 1]} route={decodedRoute} light={light} />
         </SoftBox>
         {isMini ? null : (
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
@@ -154,24 +214,43 @@ function DashboardNavbar({ absolute, light, isMini }) {
               />
             </SoftBox>
             <SoftBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in">
-                <IconButton sx={navbarIconButton} size="small">
-                  <Icon
-                    sx={({ palette: { dark, white } }) => ({
-                      color: light ? white.main : dark.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <SoftTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color={light ? "white" : "dark"}
-                  >
-                    Sign in
-                  </SoftTypography>
-                </IconButton>
-              </Link>
+              {token ? (
+                  // if the user is connected
+                  <Link to="/profile">
+                    <IconButton sx={navbarIconButton} size="small">
+                      <Avatar {...stringAvatar(userInfos.name)} />
+                      <SoftTypography
+                          variant="button"
+                          fontWeight="medium"
+                          color={light ? "white" : "dark"}
+                      >
+                        {userInfos.name}
+                      </SoftTypography>
+                    </IconButton>
+                  </Link>
+              ) : (
+                  // if the user is not connected
+                  <Link to="/profile">
+                    <IconButton sx={navbarIconButton} size="small">
+                      <Icon
+                          sx={({ palette: { dark, white } }) => ({
+                            color: light ? white.main : dark.main,
+                          })}
+                      >
+                        account_circle
+                      </Icon>
+                      <SoftTypography
+                          variant="button"
+                          fontWeight="medium"
+                          color={light ? "white" : "dark"}
+                      >
+                        Sign In
+                      </SoftTypography>
+                    </IconButton>
+                  </Link>
+              )}
+
+
               <IconButton
                 size="small"
                 color="inherit"

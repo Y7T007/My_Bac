@@ -1,15 +1,15 @@
 /* From uiverse.io by @satyamchaudharydev */
 /* removing default style of button */
 
-.form button {
+.formiyy button {
     border: none;
     background: none;
     color: #8b8ba7;
 }
 /* styling of whole input container */
-.form {
+.formiyy {
     --timing: 0.3s;
-    --width-of-input: 250px;
+    --width-of-input: 100%;
     --height-of-input: 40px;
     --border-height: 2px;
     --input-bg: #ededed;
@@ -26,6 +26,7 @@
     transition: border-radius 0.5s ease;
     background: var(--input-bg,#fff);
     margin: 15px auto;
+
 }
 /* styling of Input */
 .input {
@@ -38,7 +39,7 @@
     border: none;
 }
 /* styling of animated border */
-.form:before {
+.formiyy:before {
     content: "";
     position: absolute;
     background: var(--border-color);
@@ -52,7 +53,7 @@
     transition: transform var(--timing) ease;
 }
 /* Hover on Input */
-.form:focus-within {
+.formiyy:focus-within {
     border-radius: var(--after-border-radius);
 }
 
@@ -60,7 +61,7 @@ input:focus {
     outline: none;
 }
 /* here is code of animated border */
-.form:focus-within:before {
+.formiyy:focus-within:before {
     transform: scale(1);
 }
 /* styling of close button */
@@ -76,11 +77,28 @@ input:not(:placeholder-shown) ~ .reset {
     opacity: 1;
     visibility: visible;
 }
+.errorMessage{
+    z-index: 5;
+    font-size: small;
+    color: red;
+    padding: 1px;
+    opacity: .8;
+    border-radius: 15px;
+}
 /* sizing svg icons */
-.form svg {
+.formiyy svg {
     width: 17px;
     margin-top: 3px;
 }
 .submit-button:hover{
     background-color: white;
+}
+.input-elementor{
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px 0 15px;
+}
+
+.is-invalid{
+    border: 2px solid red;
 }

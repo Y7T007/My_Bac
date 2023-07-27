@@ -24,6 +24,8 @@ import {useEffect, useState} from "react";
 import SoftBadge from "../../components/SoftBadge";
 import SoftAvatar from "../../components/SoftAvatar";
 
+import api from "../../Axios_api_cfg";
+
 function Course({ image, name, dispo }) {
   return (
       <SoftBox display="flex" alignItems="center" px={1} py={0.5}>
@@ -65,21 +67,24 @@ Function.propTypes = {
 };
 function Tables() {
 
-  const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/courses/");
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/courses/');
+                console.log(response.data)
 
-    fetchData();
-  }, []);
+                setData(response.data.course);
+                console.log(response.data.userInfos)
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
   const rows = data.map((course) => ({
     course: (

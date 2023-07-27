@@ -1,36 +1,55 @@
 const express = require('express');
-require('dotenv').config();
 const mongoose = require('mongoose');
 const app = express();
+const cors=require("cors");
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
+const expressSession = require('express-session')
+
+
+require('dotenv').config();
+
 const StudentModel = require('./models/StudentModel');
 const routes = require('./routes/Routes');
-const cors=require("cors")
+const Students=require('./routes/Register_login')
+const Media = require('./routes/Media')
+const Quiz=require('./routes/Quiz')
+
 // Middleware
 app.use(express.json());
-app.use(cors())
+app.use(cors());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(expressSession({
+    secret: process.env.JWT_PASS, // Replace with your actual secret key
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days (in milliseconds)
+    },
+}));
 
-// Routes
-app.use('/courses', routes);
 
-app.post('/add-course', async (req, res) => {
-    try {
-        const formData = req.body;
-        if (!formData.name || !formData.email || !formData.password) {
-            return res.status(400).json({ message: 'Required fields are missing' });
-        }
-        const newRecord = new StudentModel(formData);
-        await newRecord.save();
-        res.status(200).json({ message: 'Form data saved successfully', formData });
-    } catch (error) {
-        console.error('Error saving form data:', error);
-        res.status(500).json({ message: 'Error saving form data' });
-    }
+app.use((err, req, res, next) => {
+    // Log the error
+    console.error(err);
+
+    // Send a generic error response to the client
+    res.status(500).json({ error: 'Internal Server Error' });
 });
 
 
+// Routes
+app.use('/courses', routes);
+app.use('/', Students );
+app.use('/media',Media );
+app.use('/quiz',Quiz);
+
+
 // DB_CONNECTION
-mongoose
-    .connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URL)
     .then(() => {
         console.log('Connected to the database');
     })
@@ -43,3 +62,8 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log('Server is listening on port', port);
 });
+
+
+
+
+

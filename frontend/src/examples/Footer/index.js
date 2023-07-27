@@ -59,7 +59,7 @@ function Footer({ company, links }) {
             &nbsp;{name}&nbsp;
           </SoftTypography>
         </Link>
-        for a better web.
+        for a better learning.
       </SoftBox>
       <SoftBox
         component="ul"

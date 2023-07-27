@@ -39,7 +39,7 @@ import Settings from "examples/Icons/Settings";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import burceMars from "assets/images/img.png";
 import curved0 from "assets/images/curved-images/curved0.jpg";
 
 function Header() {
@@ -113,7 +113,7 @@ function Header() {
           <Grid item>
             <SoftBox height="100%" mt={0.5} lineHeight={1}>
               <SoftTypography variant="h5" fontWeight="medium">
-                Alex Thompson
+                Yassir WAHID
               </SoftTypography>
               <SoftTypography variant="button" color="text" fontWeight="medium">
                 CEO / Co-Founder

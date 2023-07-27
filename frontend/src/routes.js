@@ -1,20 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-/** 
-  All of the routes for the Soft UI Dashboard React are added here,
+/*
   You can add a new route, customize the routes and delete the routes here.
 
   Once you add a new route on this file it will be visible automatically on
@@ -22,7 +6,7 @@ Coded by www.creative-tim.com
 
   For adding a new route you can follow the existing routes in the routes array.
   1. The `type` key with the `collapse` value is used for a route.
-  2. The `type` key with the `title` value is used for a title inside the Sidenav. 
+  2. The `type` key with the `title` value is used for a title inside the Sidenav.
   3. The `type` key with the `divider` value is used for a divider between Sidenav items.
   4. The `name` key is used for the name of the route on the Sidenav.
   5. The `key` key is used for the key of the route (It will help you with the key prop inside a loop).
@@ -35,7 +19,6 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 
-// Soft UI Dashboard React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
@@ -44,6 +27,8 @@ import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import CourseByCourse  from "layouts/course" ;
+
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -60,6 +45,21 @@ import CalendarMonthTwoToneIcon from '@mui/icons-material/CalendarMonthTwoTone';
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone';
 import ForumTwoToneIcon from '@mui/icons-material/ForumTwoTone';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
+import {SignOut} from "./layouts/authentication/sign-out/SignOut";
+import {Exams} from "./layouts/exams";
+import DashboardNavbar from "./examples/Navbars/DashboardNavbar";
+import SoftBox from "./components/SoftBox";
+import {Provider} from "./layouts/exams/context/QuizContext";
+import QuizBox from "./layouts/exams/QuizBox";
+import Footer from "./examples/Footer";
+import DashboardLayout from "./examples/LayoutContainers/DashboardLayout";
+import React from "react";
+import {Route, Routes} from "react-router-dom";
+import Home from "./layouts/exams/components/Home";
+import Quiz from "./layouts/exams/components/Quiz";
+import Result from "./layouts/exams/components/Result";
+import Error from "./layouts/exams/components/Error";
+import HomeQuiz from "./layouts/exams/components/HomeQuiz";
 const routes = [
   {
     type: "collapse",
@@ -81,13 +81,113 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Exams",
-    key: "exams",
-    route: "/exams",
-    icon: <SchoolTwoToneIcon size="12px" />,
-    component: <Billing />,
+    name: "Course 1",
+    key: "course",
+    route: "/course",
+    icon: <MenuBookTwoToneIcon />,
+    component: <CourseByCourse />,
     noCollapse: true,
   },
+  {
+    type: "collapse",
+    name: "Quizzes",
+    key: "quizzes",
+    route: "/quizzes",
+    icon: <SchoolTwoToneIcon size="12px" />,
+    noCollapse: true,
+    component: (
+        <DashboardLayout>
+          <DashboardNavbar />
+          <SoftBox mt={4}>
+            <Provider>
+
+              <Home />
+              <SoftBox mt={12}>
+              </SoftBox>
+
+            </Provider>
+          </SoftBox>
+          <Footer />
+        </DashboardLayout>
+    ),
+  },
+  {
+
+    route: "/quizzes/:subject",
+
+    component: (
+        <DashboardLayout>
+          <DashboardNavbar />
+          <SoftBox mt={4}>
+            <Provider>
+
+              <HomeQuiz  />
+              <SoftBox mt={12}>
+              </SoftBox>
+
+            </Provider>
+          </SoftBox>
+          <Footer />
+        </DashboardLayout>
+    ),
+  },
+  {
+    route: "/quizzes/:subject/:level",
+    component: (
+        <DashboardLayout>
+          <DashboardNavbar />
+          <SoftBox mt={4}>
+            <Provider>
+                  <Quiz />
+              <SoftBox mt={12}>
+              </SoftBox>
+            </Provider>
+          </SoftBox>
+          <Footer />
+        </DashboardLayout>
+    ),
+  },
+  {
+    route: "/quizzes/result",
+    component: (
+        <DashboardLayout>
+          <DashboardNavbar />
+          <SoftBox mt={4}>
+            <Provider>
+                  <Result />
+
+              <SoftBox mt={12}>
+              </SoftBox>
+            </Provider>
+          </SoftBox>
+          <Footer />
+        </DashboardLayout>
+    ),
+  },
+  // {
+  //   route: "/exams",
+  //   component: (
+  //       <DashboardLayout>
+  //         <DashboardNavbar />
+  //         <SoftBox mt={4}>
+  //           <Provider>
+  //
+  //                 <Routes>
+  //                   <Route path="/" element={<Home />} />
+  //                   <Route path="/quiz/:level" element={<Quiz />} />
+  //                   <Route path="/result" element={<Result />} />
+  //                   <Route path="/*" element={<Error />} />
+  //                 </Routes>
+  // //
+  //             <SoftBox mt={12}>
+  //             </SoftBox>
+  //
+  //           </Provider>
+  //         </SoftBox>
+  //         <Footer />
+  //       </DashboardLayout>
+  //   ),
+  // },
   {
     type: "collapse",
     name: "Planning",
@@ -141,6 +241,15 @@ const routes = [
     route: "/authentication/sign-in",
     icon: <Document size="12px" />,
     component: <SignIn />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Sign Out",
+    key: "sign-out",
+    route: "/authentication/sign-out",
+    icon: <Document size="12px" />,
+    component: <SignOut />,
     noCollapse: true,
   },
   {

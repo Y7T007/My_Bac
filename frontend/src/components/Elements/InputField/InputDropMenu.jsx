@@ -6,7 +6,7 @@ import './InputElement.css';
 const InputDropMenu = ({ name, required, type, id, value, onChange, icon, path, path2, options }) => {
 	return (
 		<>
-			<div className="form">
+			<div className="formiyy">
 				<button>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={icon} viewBox="0 0 16 16">
 						<path d={path} />
