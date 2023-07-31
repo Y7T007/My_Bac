@@ -56,6 +56,18 @@ const getCourse= async (req,res)=>{
     res.status(200).json(Course1)
 
 }
+
+const getCourseByLevel=async (req,res)=>{
+    const {level,subject}=req.params;
+    const Course1 = await Course.find({ course_level: level,course_subject:subject });
+
+    if (!Course1){
+        res.json({error:'no course founded'})
+    }
+    res.status(200).json(Course1)
+
+
+}
 //CREATE
 
 //DELETE
@@ -64,5 +76,6 @@ const getCourse= async (req,res)=>{
 
 module.exports={
     getAllCourses,
-    getCourse
+    getCourse,
+    getCourseByLevel
 }

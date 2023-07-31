@@ -194,6 +194,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
     </Menu>
   );
   const token = localStorage.getItem('jwt'); // Retrieve the JWT token from local storage
+  if (route[0]==="quizzes" && route.length >= 2 ){
+  route.length-=1;
+  }
+
   const decodedRoute = route.map((element) => decodeURIComponent(element));
   return (
     <AppBar

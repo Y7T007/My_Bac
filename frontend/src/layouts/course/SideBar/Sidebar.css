@@ -1,0 +1,49 @@
+.sidebar {
+    width: 25%;
+    height: 100%;
+    padding: 25px;
+    padding-left: 50px;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-family: Roboto;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+}
+
+.sidebar li {
+    display: flex;
+    justify-content: start;
+    font-family: "Roboto";
+    color: antiquewhite;
+    font-size: 15px;
+    padding: 15px;
+    align-items: center;
+    height: 50px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: rgba(25, 135, 84, 0.7);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.4px);
+    -webkit-backdrop-filter: blur(5.4px);
+    transition-duration: .1s;
+
+}
+
+
+.sidebar li:hover {
+    background: #198754FF;
+    color: whitesmoke;
+    font-weight: bold;
+    transition-duration: .2s;
+}

@@ -1,4 +1,4 @@
-const Quiz = require('../models/QuizModel');
+const {Quiz,QuizRecord} = require('../models/QuizModel');
 
 let quizReqCount=0 ;
 
@@ -69,4 +69,37 @@ const createQuiz = async (req, res) => {
     }
 };
 
-module.exports = { getQuiz , createQuiz ,getAllQuiz,getQuizByLevel,getQuizByLevelBySubject};
+// test if a record is saved less that one hour:
+const IsRecordExist=async (StudentId,QuizId)=>{
+    try{
+        const oneHourAgo = new Date();
+        oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+        const response = await QuizRecord.find({
+            StudentId: StudentId,
+            QuizId: QuizId,
+            timeSaved: { $gte: oneHourAgo },
+        });
+        return response;
+    }catch (e) {
+
+    }
+}
+const saveRecord = async (req,res)=>{
+    try{
+        const recordData=req.body;
+
+        const record=new QuizRecord(recordData);
+        if (!IsRecordExist(req.body.StudentId,req.body.QuizId)){
+            await record.save();
+            res.status(202).json({message : 'record saved successfully'})
+        }else {
+            res.status(204).send({message: 'You cannot pass the same quiz in an interval of time of one hour'})
+        }
+    }catch (e) {
+        res.status(501).json({message : 'errrroor : nothing saved to the db'})
+    }
+}
+
+
+module.exports = { getQuiz , createQuiz ,getAllQuiz,getQuizByLevel,getQuizByLevelBySubject,saveRecord};

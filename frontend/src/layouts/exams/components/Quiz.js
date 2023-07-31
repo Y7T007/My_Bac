@@ -3,7 +3,7 @@ import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
 
 function Quiz() {
-  const { subject,level } = useParams();
+  const { subject,level,id } = useParams();
   const navigate = useNavigate();
 
   const { questions, currentQuestion, setCurrentQuestion } = useQuizContext();
@@ -64,7 +64,7 @@ function Quiz() {
   }, [time]);
 
   return isResult ? (
-    navigate("/exams/result", {
+    navigate(`/quizzes/result/${id}`, {
       state: {
         answers: selectedAnswers,
         questions: questions[level],

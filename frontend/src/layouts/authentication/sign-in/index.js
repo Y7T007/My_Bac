@@ -75,7 +75,9 @@ function SignIn() {
         // Get the token from the cookie and store it in a variable
         const token = response.data.token
         localStorage.setItem('jwt',token)
+        localStorage.setItem('level',(response.data.level));
         localStorage.setItem('userInfos', JSON.stringify({
+          id:response.data.id,
           name: response.data.name,
           email: response.data.email,
           level: response.data.level

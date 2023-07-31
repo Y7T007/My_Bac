@@ -71,6 +71,7 @@ const Login = async (req, res) => {
 
                 res.status(202).json({
                     token: token,
+                    id:existingStudent._id,
                     level: existingStudent.level,
                     name: existingStudent.name,
                     email: existingStudent.email

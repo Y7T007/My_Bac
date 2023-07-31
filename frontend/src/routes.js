@@ -60,6 +60,7 @@ import Quiz from "./layouts/exams/components/Quiz";
 import Result from "./layouts/exams/components/Result";
 import Error from "./layouts/exams/components/Error";
 import HomeQuiz from "./layouts/exams/components/HomeQuiz";
+import HomeCourses from "./layouts/course/HomeCourses";
 const routes = [
   {
     type: "collapse",
@@ -73,19 +74,23 @@ const routes = [
   {
     type: "collapse",
     name: "Courses",
-    key: "courses",
-    route: "/courses",
-    icon: <MenuBookTwoToneIcon />,
-    component: <Tables />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Course 1",
     key: "course",
     route: "/course",
     icon: <MenuBookTwoToneIcon />,
     component: <CourseByCourse />,
+    noCollapse: true,
+  },
+  {
+    route: "/course/:subject",
+    component: (
+        <DashboardLayout>
+          <DashboardNavbar />
+          <SoftBox mt={4}>
+              <HomeCourses />
+          </SoftBox>
+          <Footer />
+        </DashboardLayout>
+    ),
     noCollapse: true,
   },
   {
@@ -99,13 +104,11 @@ const routes = [
         <DashboardLayout>
           <DashboardNavbar />
           <SoftBox mt={4}>
-            <Provider>
 
               <Home />
               <SoftBox mt={12}>
               </SoftBox>
 
-            </Provider>
           </SoftBox>
           <Footer />
         </DashboardLayout>
@@ -119,20 +122,18 @@ const routes = [
         <DashboardLayout>
           <DashboardNavbar />
           <SoftBox mt={4}>
-            <Provider>
 
               <HomeQuiz  />
               <SoftBox mt={12}>
               </SoftBox>
 
-            </Provider>
           </SoftBox>
           <Footer />
         </DashboardLayout>
     ),
   },
   {
-    route: "/quizzes/:subject/:level",
+    route: "/quizzes/:subject/:level/:id",
     component: (
         <DashboardLayout>
           <DashboardNavbar />
@@ -148,7 +149,7 @@ const routes = [
     ),
   },
   {
-    route: "/quizzes/result",
+    route: "/quizzes/result/:id",
     component: (
         <DashboardLayout>
           <DashboardNavbar />

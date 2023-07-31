@@ -7,8 +7,11 @@ const QuizContext = createContext();
 
 function Provider({ children }) {
   const [quizzes, setQuizzes] = useState(() => {
+  try {
+
     const tempQuiz = JSON.parse(localStorage.getItem('tempQuiz'));
     return tempQuiz || []; // Initialize as an array
+  }catch (e){}
   });
 
   // Initialize questionsBody as an object to hold questions for each quiz

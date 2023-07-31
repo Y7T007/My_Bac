@@ -65,6 +65,17 @@ const QuizSchema = new Schema(
     { timestamps: true }
 );
 
-const Quiz = mongoose.model('Quiz', QuizSchema);
+const QuizRecordSchema= new Schema(
+    {
+        StudentId: String,
+        QuizId:String,
+        Score : Number
 
-module.exports = Quiz;
+    },
+    {timestamps:true}
+)
+
+const Quiz = mongoose.model('Quiz', QuizSchema);
+const QuizRecord = mongoose.model('QuizRecord',QuizRecordSchema)
+
+module.exports = {Quiz,QuizRecord};
