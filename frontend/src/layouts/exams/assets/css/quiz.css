@@ -35,9 +35,13 @@
   color: var(--text-color);
 }
 .progress-icon {
-  width: 50px;
+  color: #b7002b;
+  width: fit-content;
+  transform: translateX(-50px);
+  padding: 15px;
   height: 50px;
-  display: grid;
+  display: flex;
+  flex-direction: row;
   place-items: center;
   border-radius: 0.5rem;
   background-color: var(--opacity-first);

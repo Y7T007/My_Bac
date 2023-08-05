@@ -61,6 +61,7 @@ import Result from "./layouts/exams/components/Result";
 import Error from "./layouts/exams/components/Error";
 import HomeQuiz from "./layouts/exams/components/HomeQuiz";
 import HomeCourses from "./layouts/course/HomeCourses";
+import {Notes} from "./layouts/notes";
 const routes = [
   {
     type: "collapse",
@@ -204,7 +205,7 @@ const routes = [
     key: "notes",
     route: "/notes",
     icon: <EditNoteTwoToneIcon size="12px" />,
-    component: <RTL />,
+    component: <Notes />,
     noCollapse: true,
   },
   {

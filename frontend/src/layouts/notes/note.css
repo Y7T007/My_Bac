@@ -1,0 +1,29 @@
+.note-name{
+    height: 400px;
+    width: 300px;
+    border-radius: 15px;
+    border:solid 2px rgba(202, 202, 202, 0.68);
+    background-color: whitesmoke;
+    margin: 20px;
+    padding:15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.note-name button{
+    border-radius: 50%;
+    background-color: rgba(202, 202, 202, 0.68);
+    height: 60px;
+    width: 60px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: black;
+    border: none;
+    transition-duration: .3s;
+}
+.note-name button:hover{
+    background-color: #464646;
+    color: #cacaca;
+    transition-duration: .3s;
+}

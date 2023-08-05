@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 function Quiz() {
   const { subject,level,id } = useParams();
   const navigate = useNavigate();
 
   const { questions, currentQuestion, setCurrentQuestion } = useQuizContext();
-
+  const [isCorrect,setIsCorrect]=useState(false)
   const [isNextButton, setIsNextButton] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
@@ -81,7 +84,10 @@ function Quiz() {
             </p>
           </div>
           <div className="progress-icon">
-            <i className="bi bi-bar-chart"></i>
+            <FavoriteIcon/>
+            <FavoriteIcon/>
+            <FavoriteIcon/>
+            <FavoriteBorderIcon/>
           </div>
         </div>
         <div className="progress-bottom">
