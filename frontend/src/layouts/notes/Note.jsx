@@ -8,21 +8,21 @@ export const Note = () => {
 		<>
 		<div className="note-name">
 				<button>+</button>
-		{props.isCreateNote?(
-			<>
-			</>
-		):(
-			<>
-				<h3>{props.title}</h3>
-				<p>{props.body}</p>
-			</>
-		)}
+		{
+			props.isCreateNote ? (
+				<>
+
+				</>
+			):(
+				<>
+					<h3>{props.title}</h3>
+					<p>{props.body}</p>
+				</>
+			)
+		}
 		</div>
-
-
 		</>
 	)
-
 }
 
 Note.propTypes = {

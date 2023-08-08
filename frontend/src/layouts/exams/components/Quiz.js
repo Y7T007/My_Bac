@@ -4,13 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-
 function Quiz() {
-  const { subject,level,id } = useParams();
+  const { subject, level, id } = useParams();
   const navigate = useNavigate();
-
   const { questions, currentQuestion, setCurrentQuestion } = useQuizContext();
-  const [isCorrect,setIsCorrect]=useState(false)
+  const [isCorrect, setIsCorrect] = useState();
+  const [isVerified, setIsVerified] = useState(false);
   const [isNextButton, setIsNextButton] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
@@ -18,6 +17,7 @@ function Quiz() {
   const [time, setTime] = useState(30);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
+  
 
   const selectAnswer = (index) => {
     if (currentQuestion === questions[level].length - 1) {
@@ -29,12 +29,26 @@ function Quiz() {
     setSelectedIndex(index);
   };
 
+  const verifyAnswer = (answer, index) => {
+    setIsVerified(true);
+    setSelectedIndex(index);
+  };
+
+  const showResult = (index) => {
+    setIsCorrect(questions[level][currentQuestion].answers.findIndex((a) => a.trueAnswer === true));
+    setIsVerified(false); // Reset isVerified
+    setSelectedIndex(index);
+    selectAnswer(index);
+  };
+
   const nextQuestion = (index) => {
     if (currentQuestion >= questions[level].length - 1) {
       addAnswer(index);
       setCurrentQuestion(0);
       setIsResult(true);
     } else {
+      setIsCorrect(false);
+
       setTime(30);
       setIsNextButton(false);
       addAnswer(index);
@@ -45,12 +59,12 @@ function Quiz() {
 
   const addAnswer = (index) => {
     const selectedAnswer =
-      index !== null
-        ? questions[level][currentQuestion].answers[index]
-        : {
-            answer: "Süre Bitti",
-            trueAnswer: false,
-          };
+        index !== null
+            ? questions[level][currentQuestion].answers[index]
+            : {
+              answer: "none",
+              trueAnswer: false,
+            };
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
   };
@@ -67,12 +81,12 @@ function Quiz() {
   }, [time]);
 
   return isResult ? (
-    navigate(`/quizzes/result/${id}`, {
-      state: {
-        answers: selectedAnswers,
-        questions: questions[level],
-      },
-    })
+      navigate(`/quizzes/result/${id}`, {
+        state: {
+          answers: selectedAnswers,
+          questions: questions[level],
+        },
+      })
   ) : (
     <div>
       <div className="progress-box">
@@ -130,7 +144,7 @@ function Quiz() {
         {questions[level][currentQuestion].answers.map((answer, index) => {
           return (
             <label
-              onClick={() => selectAnswer(index)}
+              onClick={() => verifyAnswer(answer.answer,index)}
               key={index}
               htmlFor={index}
               className={
@@ -138,6 +152,9 @@ function Quiz() {
                   ? "answer-label selected"
                   : "answer-label"
               }
+              id={isCorrect===index
+                  ?'correct'
+                  :(selectedIndex === index && !isVerified)?"false":null}
             >
               {answer.answer}
               <input type="radio" name="answer" id={index} />
@@ -146,20 +163,34 @@ function Quiz() {
         })}
       </div>
 
-      {isNextButton ? (
+      {isVerified ? (
         <div className="next">
           <button
-            onClick={() => nextQuestion(selectedIndex)}
+            onClick={() => showResult(selectedIndex)}
             type="button"
             className="next-btn"
           >
-            Next Question
+            Verify your Answer
             <div className="icon">
               <i className="bi bi-arrow-right"></i>
             </div>
           </button>
         </div>
       ) : null}
+      {isNextButton ? (
+            <div className="next">
+              <button
+                onClick={() => nextQuestion(selectedIndex)}
+                type="button"
+                className="next-btn"
+              >
+                Next Question
+                <div className="icon">
+                  <i className="bi bi-arrow-right"></i>
+                </div>
+              </button>
+            </div>
+          ) : null}
 
       {isResultButton ? (
         <div className="next">

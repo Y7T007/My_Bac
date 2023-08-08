@@ -301,3 +301,12 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+#correct{
+  background-color:rgb(60,255,44);
+  border:solid 2px rgb(9,97,0)
+}
+#false{
+  background-color: rgb(234, 112, 112);
+  border:solid 2px rgb(183, 0, 43)
+}
