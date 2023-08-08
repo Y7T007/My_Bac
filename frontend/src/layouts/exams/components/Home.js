@@ -17,6 +17,7 @@ function Home() {
     { name: "French", link: "/exams/quiz/B1", color: "#cc9250" },
     // Add more level boxes here
   ];
+    sessionStorage.setItem('lifes',5)
 
   return (
       <div className="home">

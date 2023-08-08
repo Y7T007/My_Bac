@@ -3,6 +3,13 @@ import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LivesDisplay from "./LivesDisplay";
+import {getElement} from "bootstrap/js/src/util";
+import NolLivesRemaining from "./NoLivesRemaining";
+import NoLivesRemaining from "./NoLivesRemaining";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+
 
 function Quiz() {
   const { subject, level, id } = useParams();
@@ -14,10 +21,35 @@ function Quiz() {
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(500);
+  const [lifes,setLifes]=useState(sessionStorage.getItem('lifes'));
+  const [score,setScore]=useState(sessionStorage.getItem('score'))
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
-  
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
+  useEffect(() => {
+    // Retrieve currentQuestion and selectedAnswers from local storage
+    const storedCurrentQuestion = localStorage.getItem('currentQuestion');
+    const storedSelectedAnswers = localStorage.getItem('selectedAnswers');
+    if (storedCurrentQuestion !== null) {
+      setCurrentQuestion(Number(storedCurrentQuestion));
+    }
+    if (storedSelectedAnswers !== null) {
+      setSelectedAnswers(JSON.parse(storedSelectedAnswers));
+    }
+    // ... (unchanged)
+  }, []);
 
   const selectAnswer = (index) => {
     if (currentQuestion === questions[level].length - 1) {
@@ -49,7 +81,7 @@ function Quiz() {
     } else {
       setIsCorrect(false);
 
-      setTime(30);
+      setTime(5000);
       setIsNextButton(false);
       addAnswer(index);
       setCurrentQuestion(currentQuestion + 1);
@@ -65,11 +97,45 @@ function Quiz() {
               answer: "none",
               trueAnswer: false,
             };
+    selectedAnswer.trueAnswer === false
+        ? (
+            () => {
+          sessionStorage.setItem('lifes', +lifes - 1);
+          setLifes(lifes - 1);
+          }
+        )() : (
+              () => {
+          sessionStorage.setItem('score', +score + 1);
+          setScore(score + 1);
+          }
+        )();
+
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
   };
 
+
+
+  const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
+    if (lifes <= 0) {
+      setModalShow(true);
+    }
+  }, [lifes]);
+
+
+
+  useEffect(() => {
+    // Store currentQuestion and selectedAnswers in local storage
+    localStorage.setItem('currentQuestion', currentQuestion);
+    localStorage.setItem('selectedAnswers', JSON.stringify(selectedAnswers));
+    // ... (unchanged)
+  }, [currentQuestion, selectedAnswers]);
+
+
+  useEffect(() => {
+
     const timer = setInterval(() => {
       setTime(time - 1);
     }, 1000);
@@ -98,10 +164,7 @@ function Quiz() {
             </p>
           </div>
           <div className="progress-icon">
-            <FavoriteIcon/>
-            <FavoriteIcon/>
-            <FavoriteIcon/>
-            <FavoriteBorderIcon/>
+            <LivesDisplay remaining={lifes}/>
           </div>
         </div>
         <div className="progress-bottom">
@@ -134,7 +197,7 @@ function Quiz() {
           className="progress-circle time"
           aria-valuemin="0"
           aria-valuemax="100"
-          style={{ "--value": (time / 30) * 100 }}
+          style={{ "--value": (time / 500) * 100 }}
         >
           <span className="time">{time}</span>
         </div>
@@ -215,6 +278,9 @@ function Quiz() {
           <span>You must hurry up!</span>
         </div>
       ) : null}
+      <>
+        <NoLivesRemaining isOpen={modalShow} />
+      </>
     </div>
   );
 }

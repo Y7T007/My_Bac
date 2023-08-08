@@ -18,8 +18,8 @@
 }
 .progress-top {
   display: grid;
-  grid-template-columns: calc(100% - 70px) 70px;
-  gap: 0.5rem;
+  grid-template-columns: 80% 20%;
+  gap: 0.6rem;
   align-items: center;
 }
 .progress-title {
@@ -31,25 +31,50 @@
   margin-bottom: 0.5rem;
 }
 .progress-description {
+  display: flex;
   font-size: 1rem;
   color: var(--text-color);
 }
 .progress-icon {
-  color: #b7002b;
-  width: fit-content;
-  transform: translateX(-50px);
+  color: #fd5370;
+  height: fit-content;
+  max-height: 100px;
+  justify-self: end;
+  float: left;
   padding: 15px;
-  height: 50px;
+  width: 50px;
   display: flex;
-  flex-direction: row;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  margin-right: 15px;
+
   border-radius: 0.5rem;
   background-color: var(--opacity-first);
 }
-.progress-icon i {
-  font-size: 1.25rem;
-  color: var(--text-color);
+
+@media screen and (min-width: 600px) {
+  /* Your styles for screens with a minimum width of 500px */
+  .progress-icon {
+    color: #fd5370
+  ;
+
+    width: fit-content;
+    float: left;
+    padding: 15px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 15px;
+    border-radius: 0.5rem;
+    background-color: var(--opacity-first);
+  }
 }
+
+
 .progress-bottom {
   position: relative;
   width: 100%;
@@ -309,4 +334,6 @@
 #false{
   background-color: rgb(234, 112, 112);
   border:solid 2px rgb(183, 0, 43)
+}
+.error{
 }

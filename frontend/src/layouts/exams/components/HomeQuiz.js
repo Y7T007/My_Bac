@@ -23,6 +23,8 @@ function HomeQuiz() {
       console.log("error : ", e);
     }
   };
+  sessionStorage.setItem('score',0)
+
 
   if (!isFetched) {
     fetchQuiz().then(r => { console.log(r);localStorage.setItem('tempQuiz',(r)) });
