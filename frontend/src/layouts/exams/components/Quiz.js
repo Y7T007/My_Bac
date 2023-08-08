@@ -144,11 +144,11 @@ function Quiz() {
         {questions[level][currentQuestion].answers.map((answer, index) => {
           return (
             <label
-              onClick={() => verifyAnswer(answer.answer,index)}
+              onClick={() =>{ if (!isNextButton){ verifyAnswer(answer.answer,index)}}}
               key={index}
               htmlFor={index}
               className={
-                selectedIndex === index
+                (selectedIndex === index  )
                   ? "answer-label selected"
                   : "answer-label"
               }
@@ -163,7 +163,7 @@ function Quiz() {
         })}
       </div>
 
-      {isVerified ? (
+      {(isVerified&&!isCorrect) ? (
         <div className="next">
           <button
             onClick={() => showResult(selectedIndex)}
