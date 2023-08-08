@@ -329,7 +329,8 @@
 
 #correct{
   background-color:rgb(60,255,44);
-  border:solid 2px rgb(9,97,0)
+  border:solid 2px rgb(9,97,0);
+  color:black;
 }
 #false{
   background-color: rgb(234, 112, 112);

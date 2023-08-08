@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import {json, Link, useParams} from "react-router-dom";
 import '../assets/css/home.css'
 import levels from "../../../context/levels";
 import api from "../../../Axios_api_cfg";
@@ -23,7 +23,9 @@ function HomeQuiz() {
       console.log("error : ", e);
     }
   };
-  sessionStorage.setItem('score',0)
+  sessionStorage.setItem('score',0);
+  sessionStorage.setItem('currentQuestion', 0);
+  sessionStorage.removeItem('selectedAnswers');
 
 
   if (!isFetched) {

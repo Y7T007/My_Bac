@@ -40,12 +40,12 @@ function Quiz() {
 
   useEffect(() => {
     // Retrieve currentQuestion and selectedAnswers from local storage
-    const storedCurrentQuestion = localStorage.getItem('currentQuestion');
-    const storedSelectedAnswers = localStorage.getItem('selectedAnswers');
+    const storedCurrentQuestion = sessionStorage.getItem('currentQuestion');
+    const storedSelectedAnswers = sessionStorage.getItem('selectedAnswers');
     if (storedCurrentQuestion !== null) {
       setCurrentQuestion(Number(storedCurrentQuestion));
     }
-    if (storedSelectedAnswers !== null) {
+    if (storedSelectedAnswers !== null ) {
       setSelectedAnswers(JSON.parse(storedSelectedAnswers));
     }
     // ... (unchanged)
@@ -105,7 +105,7 @@ function Quiz() {
           }
         )() : (
               () => {
-          sessionStorage.setItem('score', +score + 1);
+          sessionStorage.setItem('score', Number(1+score));
           setScore(score + 1);
           }
         )();
@@ -128,8 +128,8 @@ function Quiz() {
 
   useEffect(() => {
     // Store currentQuestion and selectedAnswers in local storage
-    localStorage.setItem('currentQuestion', currentQuestion);
-    localStorage.setItem('selectedAnswers', JSON.stringify(selectedAnswers));
+    sessionStorage.setItem('currentQuestion', currentQuestion);
+    sessionStorage.setItem('selectedAnswers', JSON.stringify(selectedAnswers));
     // ... (unchanged)
   }, [currentQuestion, selectedAnswers]);
 

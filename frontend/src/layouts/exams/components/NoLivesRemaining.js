@@ -20,10 +20,10 @@ export default function NoLivesRemaining({ isOpen }) {
 
     const handleWatchAdd = () => {
         // Handle logic to redirect to Google Ads watching service
-        window.open('https://www.google.com/ads/', '_blank');
-        console.log('User clicked "Watch an add"');
-        sessionStorage.setItem('lifes',2);
-        window.location.reload()
+        // window.open('https://www.google.com/ads/', '_blank');
+        // console.log('User clicked "Watch an add"');
+        sessionStorage.setItem('lifes',20);
+        // window.location.reload()
         handleClose();
     };
 
