@@ -3,6 +3,13 @@ import { useQuizContext } from "../context/QuizContext";
 import { useNavigate, useParams } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import LivesDisplay from "./LivesDisplay";
+import {getElement} from "bootstrap/js/src/util";
+import NolLivesRemaining from "./NoLivesRemaining";
+import NoLivesRemaining from "./NoLivesRemaining";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+
 
 function Quiz() {
   const { subject, level, id } = useParams();
@@ -14,10 +21,35 @@ function Quiz() {
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(500);
+  const [lifes,setLifes]=useState(sessionStorage.getItem('lifes'));
+  const [score,setScore]=useState(Number(sessionStorage.getItem('score')))
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
-  
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
+
+  useEffect(() => {
+    // Retrieve currentQuestion and selectedAnswers from local storage
+    const storedCurrentQuestion = sessionStorage.getItem('currentQuestion');
+    const storedSelectedAnswers = sessionStorage.getItem('selectedAnswers');
+    if (storedCurrentQuestion !== null) {
+      setCurrentQuestion(Number(storedCurrentQuestion));
+    }
+    if (storedSelectedAnswers !== null ) {
+      setSelectedAnswers(JSON.parse(storedSelectedAnswers));
+    }
+    // ... (unchanged)
+  }, []);
 
   const selectAnswer = (index) => {
     if (currentQuestion === questions[level].length - 1) {
@@ -35,6 +67,25 @@ function Quiz() {
   };
 
   const showResult = (index) => {
+    const selectedAnswer =
+        index !== null
+            ? questions[level][currentQuestion].answers[index]
+            : {
+              answer: "none",
+              trueAnswer: false,
+            };
+    selectedAnswer.trueAnswer === false
+        ? (
+            () => {
+              sessionStorage.setItem('lifes', +lifes - 1);
+              setLifes(lifes - 1);
+            }
+        )() : (
+            () => {
+              sessionStorage.setItem('score', Number(2+score));
+              setScore(score + 2);
+            }
+        )();
     setIsCorrect(questions[level][currentQuestion].answers.findIndex((a) => a.trueAnswer === true));
     setIsVerified(false); // Reset isVerified
     setSelectedIndex(index);
@@ -49,7 +100,7 @@ function Quiz() {
     } else {
       setIsCorrect(false);
 
-      setTime(30);
+      setTime(5000);
       setIsNextButton(false);
       addAnswer(index);
       setCurrentQuestion(currentQuestion + 1);
@@ -65,11 +116,34 @@ function Quiz() {
               answer: "none",
               trueAnswer: false,
             };
+
+
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
   };
 
+
+
+  const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
+    if (lifes <= 0) {
+      setModalShow(true);
+    }
+  }, [lifes]);
+
+
+
+  useEffect(() => {
+    // Store currentQuestion and selectedAnswers in local storage
+    sessionStorage.setItem('currentQuestion', currentQuestion);
+    sessionStorage.setItem('selectedAnswers', JSON.stringify(selectedAnswers));
+    // ... (unchanged)
+  }, [currentQuestion, selectedAnswers]);
+
+
+  useEffect(() => {
+
     const timer = setInterval(() => {
       setTime(time - 1);
     }, 1000);
@@ -97,12 +171,7 @@ function Quiz() {
               You are solving {level} Level words quiz {subject}
             </p>
           </div>
-          <div className="progress-icon">
-            <FavoriteIcon/>
-            <FavoriteIcon/>
-            <FavoriteIcon/>
-            <FavoriteBorderIcon/>
-          </div>
+
         </div>
         <div className="progress-bottom">
           <div
@@ -117,10 +186,14 @@ function Quiz() {
             <span className="progress-big">{currentQuestion + 1}</span>
             <span className="progress-mini">/{questions[level].length}</span>
           </div>
-          <p className="progress-detail">
-            You solve the {currentQuestion + 1}. question out of a total of{" "}
-            {questions[level].length} questions
-          </p>
+          {/*<p className="progress-detail">*/}
+          {/*  You solve the {currentQuestion + 1}. question out of a total of{" "}*/}
+          {/*  {questions[level].length} questions*/}
+          {/*</p>*/}
+          <div className="score">
+            Score: <strong>{score}/20</strong>
+          </div>
+          {window.screen.width<500?console.log(window.screen.width,'inferior'):console.log(window.screen.width,'superior')}
         </div>
       </div>
       <div className="question-box">
@@ -130,25 +203,21 @@ function Quiz() {
             {questions[level][currentQuestion].question}
           </h3>
         </div>
-        <div
-          className="progress-circle time"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          style={{ "--value": (time / 30) * 100 }}
-        >
-          <span className="time">{time}</span>
+        <div className="progress-icon">
+          <LivesDisplay remaining={lifes}/>
         </div>
       </div>
+
 
       <div className="answers-boxes">
         {questions[level][currentQuestion].answers.map((answer, index) => {
           return (
             <label
-              onClick={() => verifyAnswer(answer.answer,index)}
+              onClick={() =>{ if (!isNextButton){ verifyAnswer(answer.answer,index)}}}
               key={index}
               htmlFor={index}
               className={
-                selectedIndex === index
+                (selectedIndex === index  )
                   ? "answer-label selected"
                   : "answer-label"
               }
@@ -163,7 +232,7 @@ function Quiz() {
         })}
       </div>
 
-      {isVerified ? (
+      {(isVerified&&!isCorrect) ? (
         <div className="next">
           <button
             onClick={() => showResult(selectedIndex)}
@@ -215,6 +284,9 @@ function Quiz() {
           <span>You must hurry up!</span>
         </div>
       ) : null}
+      <>
+        <NoLivesRemaining isOpen={modalShow} />
+      </>
     </div>
   );
 }

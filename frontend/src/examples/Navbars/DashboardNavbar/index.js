@@ -206,10 +206,93 @@ function DashboardNavbar({ absolute, light, isMini }) {
       sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={decodedRoute[decodedRoute.length - 1]} route={decodedRoute} light={light} />
-        </SoftBox>
-        {isMini ? null : (
+
+        {isMini ? (
+            <>
+
+                <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
+                  <SoftBox className={'w-50'}>
+                    <SoftInput
+                        placeholder="hello here..."
+                        icon={{ component: "search", direction: "left" }}
+                    />
+                  </SoftBox>
+                  <SoftBox color={light ? "white" : "inherit"}>
+                    {token ? (
+                        // if the user is connected
+                        <Link to="/profile">
+                          <IconButton sx={navbarIconButton} size="small">
+                            <Avatar {...stringAvatar(userInfos.name)} />
+                            <SoftTypography
+                                variant="button"
+                                fontWeight="medium"
+                                color={light ? "white" : "dark"}
+                            >
+                              {userInfos.name}
+                            </SoftTypography>
+                          </IconButton>
+                        </Link>
+                    ) : (
+                        // if the user is not connected
+                        <Link to="/profile">
+                          <IconButton sx={navbarIconButton} size="small">
+                            <Icon
+                                sx={({ palette: { dark, white } }) => ({
+                                  color: light ? white.main : dark.main,
+                                })}
+                            >
+                              account_circle
+                            </Icon>
+                            <SoftTypography
+                                variant="button"
+                                fontWeight="medium"
+                                color={light ? "white" : "dark"}
+                            >
+                              Sign In
+                            </SoftTypography>
+                          </IconButton>
+                        </Link>
+                    )}
+
+
+                    <IconButton
+                        size="small"
+                        color="inherit"
+                        sx={navbarMobileMenu}
+                        onClick={handleMiniSidenav}
+                    >
+                      <Icon className={light ? "text-white" : "text-dark"}>
+                        {miniSidenav ? "menu_open" : "menu"}
+                      </Icon>
+                    </IconButton>
+                    <IconButton
+                        size="small"
+                        color="inherit"
+                        sx={navbarIconButton}
+                        onClick={handleConfiguratorOpen}
+                    >
+                      <Icon>settings</Icon>
+                    </IconButton>
+                    <IconButton
+                        size="small"
+                        color="inherit"
+                        sx={navbarIconButton}
+                        aria-controls="notification-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        onClick={handleOpenMenu}
+                    >
+                      <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
+                    </IconButton>
+                    {renderMenu()}
+                  </SoftBox>
+                </SoftBox>
+            </>
+            ) : (
+                <>
+                  <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+                    <Breadcrumbs icon="home" title={decodedRoute[decodedRoute.length - 1]} route={decodedRoute} light={light} />
+                  </SoftBox>
           <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
             <SoftBox pr={1}>
               <SoftInput
@@ -287,6 +370,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               {renderMenu()}
             </SoftBox>
           </SoftBox>
+                </>
         )}
       </Toolbar>
     </AppBar>

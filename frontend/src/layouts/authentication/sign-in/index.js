@@ -112,9 +112,9 @@ function SignIn() {
 
   return (
     <CoverLayout
-      title="Welcome back"
-      description="Enter your email and password to sign in"
-      image={curved9}
+        title="Welcome back"
+        description="Enter your email and password to sign in"
+        image={curved9}
     >
       <form onSubmit={handleSubmit}>
       <SoftBox >
@@ -170,7 +170,7 @@ function SignIn() {
         </SoftBox>
         <SoftBox mt={4} mb={1}>
 
-          <button className="submitButton" type="submit" >
+          <button className="submitButton" type="submit" onClick={handleSubmit} >
             sign in
           </button>
 

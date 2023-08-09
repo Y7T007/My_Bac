@@ -17,9 +17,8 @@
   padding: 1.5rem 2rem 0 2rem;
 }
 .progress-top {
-  display: grid;
-  grid-template-columns: calc(100% - 70px) 70px;
-  gap: 0.5rem;
+  display: flex;
+  gap: 0.6rem;
   align-items: center;
 }
 .progress-title {
@@ -31,31 +30,76 @@
   margin-bottom: 0.5rem;
 }
 .progress-description {
+  display: flex;
   font-size: 1rem;
   color: var(--text-color);
 }
 .progress-icon {
-  color: #b7002b;
-  width: fit-content;
-  transform: translateX(-50px);
+  color: #fd5370;
+  height: fit-content;
+  max-height: 100px;
+  justify-self: end;
+  float: left;
   padding: 15px;
-  height: 50px;
+  width: 50px;
+
   display: flex;
-  flex-direction: row;
-  place-items: center;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+
   border-radius: 0.5rem;
   background-color: var(--opacity-first);
 }
-.progress-icon i {
-  font-size: 1.25rem;
-  color: var(--text-color);
+.score {
+  color: white;
+
+  height: 50px;
+  width: 150px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: rgba(104, 0, 153, 0.83);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border: 1px solid rgba(104, 0, 153, 0.3);
 }
+
+@media screen and (min-width: 600px) {
+  /* Your styles for screens with a minimum width of 500px */
+  .progress-icon {
+    color: #fd5370
+  ;
+
+    width: fit-content;
+    float: left;
+    padding: 15px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-right: 15px;
+    border-radius: 0.5rem;
+    background-color: var(--opacity-first);
+  }
+}
+
+
 .progress-bottom {
   position: relative;
   width: 100%;
   display: grid;
-  grid-template-columns: 125px calc(100% - 125px);
+  justify-content: center;
   align-items: center;
+  grid-template-columns: 125px calc(100% - 125px);
   gap: 0.5rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
@@ -304,9 +348,14 @@
 
 #correct{
   background-color:rgb(60,255,44);
-  border:solid 2px rgb(9,97,0)
+  border:solid 2px rgb(9,97,0);
+  color:black;
 }
 #false{
   background-color: rgb(234, 112, 112);
   border:solid 2px rgb(183, 0, 43)
 }
+.error{
+}
+
+
