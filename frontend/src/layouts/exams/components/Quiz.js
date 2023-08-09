@@ -23,7 +23,7 @@ function Quiz() {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [time, setTime] = useState(500);
   const [lifes,setLifes]=useState(sessionStorage.getItem('lifes'));
-  const [score,setScore]=useState(sessionStorage.getItem('score'))
+  const [score,setScore]=useState(Number(sessionStorage.getItem('score')))
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -67,6 +67,25 @@ function Quiz() {
   };
 
   const showResult = (index) => {
+    const selectedAnswer =
+        index !== null
+            ? questions[level][currentQuestion].answers[index]
+            : {
+              answer: "none",
+              trueAnswer: false,
+            };
+    selectedAnswer.trueAnswer === false
+        ? (
+            () => {
+              sessionStorage.setItem('lifes', +lifes - 1);
+              setLifes(lifes - 1);
+            }
+        )() : (
+            () => {
+              sessionStorage.setItem('score', Number(2+score));
+              setScore(score + 2);
+            }
+        )();
     setIsCorrect(questions[level][currentQuestion].answers.findIndex((a) => a.trueAnswer === true));
     setIsVerified(false); // Reset isVerified
     setSelectedIndex(index);
@@ -97,18 +116,7 @@ function Quiz() {
               answer: "none",
               trueAnswer: false,
             };
-    selectedAnswer.trueAnswer === false
-        ? (
-            () => {
-          sessionStorage.setItem('lifes', +lifes - 1);
-          setLifes(lifes - 1);
-          }
-        )() : (
-              () => {
-          sessionStorage.setItem('score', Number(1+score));
-          setScore(score + 1);
-          }
-        )();
+
 
     const newAnswers = [...selectedAnswers, selectedAnswer];
     setSelectedAnswers(newAnswers);
@@ -163,9 +171,7 @@ function Quiz() {
               You are solving {level} Level words quiz {subject}
             </p>
           </div>
-          <div className="progress-icon">
-            <LivesDisplay remaining={lifes}/>
-          </div>
+
         </div>
         <div className="progress-bottom">
           <div
@@ -180,10 +186,14 @@ function Quiz() {
             <span className="progress-big">{currentQuestion + 1}</span>
             <span className="progress-mini">/{questions[level].length}</span>
           </div>
-          <p className="progress-detail">
-            You solve the {currentQuestion + 1}. question out of a total of{" "}
-            {questions[level].length} questions
-          </p>
+          {/*<p className="progress-detail">*/}
+          {/*  You solve the {currentQuestion + 1}. question out of a total of{" "}*/}
+          {/*  {questions[level].length} questions*/}
+          {/*</p>*/}
+          <div className="score">
+            Score: <strong>{score}/20</strong>
+          </div>
+          {window.screen.width<500?console.log(window.screen.width,'inferior'):console.log(window.screen.width,'superior')}
         </div>
       </div>
       <div className="question-box">
@@ -193,15 +203,11 @@ function Quiz() {
             {questions[level][currentQuestion].question}
           </h3>
         </div>
-        <div
-          className="progress-circle time"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          style={{ "--value": (time / 500) * 100 }}
-        >
-          <span className="time">{time}</span>
+        <div className="progress-icon">
+          <LivesDisplay remaining={lifes}/>
         </div>
       </div>
+
 
       <div className="answers-boxes">
         {questions[level][currentQuestion].answers.map((answer, index) => {

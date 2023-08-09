@@ -32,12 +32,13 @@ const LivesDisplay = ({  remaining }) => {
                 <>
 
                     <FavoriteIcon />
-                    <span style={{textAlign:'center'}}>&nbsp;{currentLives}</span>
+                    <span style={{textAlign:'center'}}>{currentLives}</span>
                 </>
             )}
         </>
     );
 };
+
 
 LivesDisplay.propTypes = {
     remaining: PropTypes.number.isRequired,

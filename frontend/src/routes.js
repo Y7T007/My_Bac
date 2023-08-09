@@ -137,7 +137,7 @@ const routes = [
     route: "/quizzes/:subject/:level/:id",
     component: (
         <DashboardLayout>
-          <DashboardNavbar />
+          <DashboardNavbar isMini={true} />
           <SoftBox mt={4}>
             <Provider>
                   <Quiz />
