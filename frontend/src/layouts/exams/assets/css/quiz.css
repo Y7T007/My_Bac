@@ -91,21 +91,42 @@
     background-color: var(--opacity-first);
   }
 }
-
+.progress-bar{
+  display: flex;
+  width: 90%;
+  overflow-x: auto;
+  z-index: 3;
+  padding: 10px;
+  background: rgba(21, 17, 154, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2.8px);
+  -webkit-backdrop-filter: blur(2.8px);
+  border: 1px solid rgba(21, 17, 154, 0.52);
+}
+.progress-bar::-webkit-scrollbar{
+  display: none;
+}
 
 .progress-bottom {
   position: relative;
   width: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   grid-template-columns: 125px calc(100% - 125px);
-  gap: 0.5rem;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   background-color: var(--second-color);
   padding: 1.5rem;
-  overflow: hidden;
+  gap: 15px;
+  overflow-x: scroll;
+  -ms-overflow-x: scroll;
+  overflow-y: hidden;
+}
+.progress-bottom::-webkit-scrollbar{
+  display: none;
 }
 .progress-bottom::before {
   content: "";
@@ -128,6 +149,17 @@
   border-radius: 50%;
   background-color: var(--opacity-second);
   z-index: 0;
+}
+.StepProgressBar{
+  display: block;
+  float: left;
+  justify-content:center;
+  align-items:center;
+  width: 800px;
+  overflow: scroll;
+}
+.StepProgressBar::-webkit-scrollbar{
+  display: none;
 }
 .progress-circle {
   --percentage: var(--value);

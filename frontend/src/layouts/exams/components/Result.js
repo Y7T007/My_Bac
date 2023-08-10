@@ -20,7 +20,7 @@ function Result() {
   const allQuestions = location.state.questions;
   const [userId, setUserId] = useState(0);
   const [recordData, setRecordData] = useState({
-    StudentId: '',
+    StudentId: JSON.parse(localStorage.getItem('userInfos')).id,
     Score: 0,
   });
   const [score, setScore] = useState(0);
@@ -47,11 +47,11 @@ function Result() {
     }
   }, [isRecordSaved, userId, percentile]);
 
-  console.log(JSON.parse(localStorage.getItem('tempQuiz')))
 
   useEffect( () => {
     if (isRecordSaved) {
-       api.post('/quiz/save-record', {
+      console.log(recordData,JSON.parse(localStorage.getItem('userInfos')).id)
+       api.post('/quiz/records/save-record', {
          StudentId: JSON.parse(localStorage.getItem('userInfos')).id,
          Score: percentile,
          QuizId:id,
@@ -104,7 +104,7 @@ function Result() {
           You answered {percentile} out of {allQuestions.length} questions
           correctly!
         </p>
-        <Link to="/exams" className="new-quiz">
+        <Link to="/quizzes" className="new-quiz">
           Start a new quiz!
         </Link>
       </div>

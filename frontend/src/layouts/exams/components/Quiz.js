@@ -9,6 +9,7 @@ import NolLivesRemaining from "./NoLivesRemaining";
 import NoLivesRemaining from "./NoLivesRemaining";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import StepProgressBar from "./StepProgressBar";
 
 
 function Quiz() {
@@ -99,7 +100,7 @@ function Quiz() {
       setIsResult(true);
     } else {
       setIsCorrect(false);
-
+      handleStepChange(currentStep + 1)
       setTime(5000);
       setIsNextButton(false);
       addAnswer(index);
@@ -132,7 +133,11 @@ function Quiz() {
     }
   }, [lifes]);
 
+  const [currentStep, setCurrentStep] = useState(1);
 
+  const handleStepChange = (newStep) => {
+    setCurrentStep(newStep);
+  };
 
   useEffect(() => {
     // Store currentQuestion and selectedAnswers in local storage
@@ -154,6 +159,18 @@ function Quiz() {
     return () => clearInterval(timer);
   }, [time]);
 
+  useEffect(() => {
+    const progressBarContainer = document.querySelector('.progress-bar');
+    const scrollPercentage = (sessionStorage.getItem('currentQuestion')/20)*100 -10; // Change this to your desired initial scroll percentage
+    console.log('scroll percent : ', scrollPercentage)
+    const containerWidth = progressBarContainer.scrollWidth;
+    const scrollTo = (containerWidth * scrollPercentage) / 100;
+
+    progressBarContainer.scrollTo({
+      left: scrollTo,
+      behavior: 'smooth', // This enables smooth scrolling
+    });  }, [isNextButton]);
+
   return isResult ? (
       navigate(`/quizzes/result/${id}`, {
         state: {
@@ -174,18 +191,26 @@ function Quiz() {
 
         </div>
         <div className="progress-bottom">
-          <div
-            className="progress-circle"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            style={{
-              "--value":
-                ((currentQuestion + 1) / questions[level].length) * 100,
-            }}
-          >
-            <span className="progress-big">{currentQuestion + 1}</span>
-            <span className="progress-mini">/{questions[level].length}</span>
+          <div className="progress-bar" >
+          <div className="StepProgressBar" >
+
+            {/* Your other components */}
+            <StepProgressBar steps={20} currentStep={currentQuestion } answers={JSON.parse(sessionStorage.getItem('selectedAnswers'))?JSON.parse(sessionStorage.getItem('selectedAnswers')):[{ answer: '2', trueAnswer: false }]} />
+
+           </div>
           </div>
+          {/*<div*/}
+          {/*  className="progress-circle"*/}
+          {/*  aria-valuemin="0"*/}
+          {/*  aria-valuemax="100"*/}
+          {/*  style={{*/}
+          {/*    "--value":*/}
+          {/*      ((currentQuestion + 1) / questions[level].length) * 100,*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <span className="progress-big">{currentQuestion + 1}</span>*/}
+          {/*  <span className="progress-mini">/{questions[level].length}</span>*/}
+          {/*</div>*/}
           {/*<p className="progress-detail">*/}
           {/*  You solve the {currentQuestion + 1}. question out of a total of{" "}*/}
           {/*  {questions[level].length} questions*/}
