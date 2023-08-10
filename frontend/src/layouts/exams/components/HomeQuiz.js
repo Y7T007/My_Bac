@@ -92,6 +92,7 @@ function HomeQuiz() {
                     const record = StudentRecords.find(r => r.QuizId === q._id);
                       console.log('record',i,record)
 
+
                     if (!isDisabled ){
                       linkEnabled=true;
                     }
