@@ -1,0 +1,43 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Use the desired Node.js version
+
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm install
+        cd ../backend
+        npm install
+
+    - name: Build and test
+      run: |
+        cd frontend
+        npm run build
+        cd ../backend
+        npm test
+
+    - name: Deploy to Heroku
+      uses: akhileshns/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_app_name: your-heroku-app-name
+        heroku_email: your-heroku-email
+
+# Add secrets to your GitHub repository settings:
+# - HEROKU_API_KEY: Your Heroku API key
