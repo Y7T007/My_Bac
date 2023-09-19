@@ -10,7 +10,8 @@ import NoLivesRemaining from "./NoLivesRemaining";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import StepProgressBar from "./StepProgressBar";
-
+import 'katex/dist/katex.min.css'; // Import the KaTeX CSS
+import { BlockMath, InlineMath } from 'react-katex';
 
 function Quiz() {
   const { subject, level, id } = useParams();
@@ -225,7 +226,7 @@ function Quiz() {
         <div className="question-text">
           <h2 className="question-title">Question: {currentQuestion + 1}</h2>
           <h3 className="question">
-            {questions[level][currentQuestion].question}
+            <BlockMath math={questions[level][currentQuestion].question} />
           </h3>
         </div>
         <div className="progress-icon">

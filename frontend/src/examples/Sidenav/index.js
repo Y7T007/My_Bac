@@ -58,61 +58,119 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }, [dispatch, location]);
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, route, href }) => {
-    let returnValue;
+  const token = localStorage.getItem('jwt');
 
-    if (type === "collapse") {
-      returnValue = href ? (
-        <Link
-          href={href}
-          key={key}
-          target="_blank"
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-        >
-          <SidenavCollapse
-            color={color}
-            name={name}
-            icon={icon}
-            active={key === collapseName}
-            noCollapse={noCollapse}
-          />
-        </Link>
-      ) : (
-        <NavLink to={route} key={key}>
-          <SidenavCollapse
-            color={color}
-            key={key}
-            name={name}
-            icon={icon}
-            active={key === collapseName}
-            noCollapse={noCollapse}
-          />
-        </NavLink>
-      );
-    } else if (type === "title") {
-      returnValue = (
-        <SoftTypography
-          key={key}
-          display="block"
-          variant="caption"
-          fontWeight="bold"
-          textTransform="uppercase"
-          opacity={0.6}
-          pl={3}
-          mt={2}
-          mb={1}
-          ml={1}
-        >
-          {title}
-        </SoftTypography>
-      );
-    } else if (type === "divider") {
-      returnValue = <Divider key={key} />;
-    }
+  const renderRoutes = token
+      ?routes.filter(route => route.name !== "Sign Up").map(({ type, name, icon, title, noCollapse, key, route, href }) => {
+      let returnValue;
 
-    return returnValue;
-  });
+      if (type === "collapse") {
+          returnValue = href ? (
+              <Link
+                  href={href}
+                  key={key}
+                  target="_blank"
+                  rel="noreferrer"
+                  sx={{ textDecoration: "none" }}
+              >
+                  <SidenavCollapse
+                      color={color}
+                      name={name}
+                      icon={icon}
+                      active={key === collapseName}
+                      noCollapse={noCollapse}
+                  />
+              </Link>
+          ) : (
+              <NavLink to={route} key={key}>
+                  <SidenavCollapse
+                      color={color}
+                      key={key}
+                      name={name}
+                      icon={icon}
+                      active={key === collapseName}
+                      noCollapse={noCollapse}
+                  />
+              </NavLink>
+          );
+      } else if (type === "title") {
+          returnValue = (
+              <SoftTypography
+                  key={key}
+                  display="block"
+                  variant="caption"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                  opacity={0.6}
+                  pl={3}
+                  mt={2}
+                  mb={1}
+                  ml={1}
+              >
+                  {title}
+              </SoftTypography>
+          );
+      } else if (type === "divider") {
+          returnValue = <Divider key={key} />;
+      }
+
+      return returnValue;
+  })
+      :routes.map(({ type, name, icon, title, noCollapse, key, route, href }) => {
+          let returnValue;
+
+          if (type === "collapse") {
+              returnValue = href ? (
+                  <Link
+                      href={href}
+                      key={key}
+                      target="_blank"
+                      rel="noreferrer"
+                      sx={{ textDecoration: "none" }}
+                  >
+                      <SidenavCollapse
+                          color={color}
+                          name={name}
+                          icon={icon}
+                          active={key === collapseName}
+                          noCollapse={noCollapse}
+                      />
+                  </Link>
+              ) : (
+                  <NavLink to={route} key={key}>
+                      <SidenavCollapse
+                          color={color}
+                          key={key}
+                          name={name}
+                          icon={icon}
+                          active={key === collapseName}
+                          noCollapse={noCollapse}
+                      />
+                  </NavLink>
+              );
+          } else if (type === "title") {
+              returnValue = (
+                  <SoftTypography
+                      key={key}
+                      display="block"
+                      variant="caption"
+                      fontWeight="bold"
+                      textTransform="uppercase"
+                      opacity={0.6}
+                      pl={3}
+                      mt={2}
+                      mb={1}
+                      ml={1}
+                  >
+                      {title}
+                  </SoftTypography>
+              );
+          } else if (type === "divider") {
+              returnValue = <Divider key={key} />;
+          }
+
+          return returnValue;
+      });
 
   return (
     <SidenavRoot {...rest} variant="permanent" ownerState={{ transparentSidenav, miniSidenav }}>

@@ -4,7 +4,9 @@ import '../assets/css/home.css'
 import levels from "../../../context/levels";
 import api from "../../../Axios_api_cfg";
 import quiz from "./Quiz";
-
+import QuizButton from "./QuizButton";
+import 'katex/dist/katex.min.css'; // Import the KaTeX CSS
+import { BlockMath, InlineMath } from 'react-katex';
 function HomeQuiz() {
   const { subject } = useParams();
   const level = JSON.parse(localStorage.getItem('userInfos')).level;
@@ -101,29 +103,41 @@ function HomeQuiz() {
                     const levelName = linkEnabled ? q.name : `${q.name}`;
                     const classNamer=linkEnabled?"level-link":"level-link disabled";
                     const linkIcon=linkEnabled?"bi bi-unlock":"bi bi-lock";
+                    const linkPath=linkEnabled?`/quizzes/${subjectInfos.key}/${q.name}/${q._id}`:'';
                     allLinks.push(
                         <>
+
                           <Link
                               key={q.id}
                               className={classNamer}
-                              to={`/quizzes/${subjectInfos.key}/${q.name}/${q._id}`}
+                              to={linkPath}
                           >
                                 <span style={{ textTransform: "capitalize" }}>
                                   {linkText}: {levelName}
                                 </span>{" "}
                             <i className={linkIcon}></i>
                             <span>
-                              {record?record.Score+'/20':''}
+                              <QuizButton note={record?record.Score:null}/>
+
                             </span>
                           </Link>
                         </>
                     )
                     }
                   }
+                  const [equation, setEquation] = useState('\\begin{equation}\n' +
+                      '\\lim _{x \\rightarrow 1} 2 x^3-1\n' +
+                      '\\end{equation}\n');
+
 
                   return(
                       <>
                         {allLinks}
+                        {/*<div>*/}
+                        {/*  <h3>Rendered Equation: <BlockMath math={'\\begin{equation}\n' +*/}
+                        {/*      '\\lim _{x \\rightarrow 1} 2 x^4-1\n' +*/}
+                        {/*      '\\end{equation}\n'} /></h3>*/}
+                        {/*</div>*/}
                       </>
                   );
                 })()}

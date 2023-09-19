@@ -22,6 +22,14 @@ const StudentSchema = new Schema(
         level:{
             type:String,
             required:true
+        },
+        rank:{
+            type:Number,
+            default:0,
+        },
+        divisionId:{
+            type:String,
+            default:null,
         }
     },{timestamps:true});
 
