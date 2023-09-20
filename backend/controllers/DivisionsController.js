@@ -179,7 +179,8 @@ const weeklyUpdate = async (req, res) => {
 
         for (let index = 0; index < division.student_id.length; index++) {
             const studentId = division.student_id[index];
-            
+
+
             // Perform your logic to determine inactivity here
             if (parseInt(division.student_scores[index]) === 0) {
                 inactiveStudents.push(studentId);
