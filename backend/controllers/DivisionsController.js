@@ -194,6 +194,7 @@ const weeklyUpdate = async (req, res) => {
         }
 
             // Delete the current division
+
             await division.deleteOne();
         }
 
