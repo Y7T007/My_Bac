@@ -23,6 +23,8 @@ function SignUp() {
     password: '',
     city: '',
     level: ' ',
+    rank:0,
+    divisionId:null,
   });
   const [emailExists, setEmailExists] = useState(false);
 

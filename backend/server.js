@@ -14,6 +14,7 @@ const routes = require('./routes/Routes');
 const Students=require('./routes/Register_login')
 const Media = require('./routes/Media')
 const Quiz=require('./routes/Quiz')
+const Divisions=require('./routes/Divisions')
 
 // Middleware
 app.use(express.json());
@@ -46,6 +47,7 @@ app.use('/courses', routes);
 app.use('/', Students );
 app.use('/media',Media );
 app.use('/quiz',Quiz);
+app.use('/division',Divisions);
 
 
 // DB_CONNECTION

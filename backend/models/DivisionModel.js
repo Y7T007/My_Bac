@@ -12,8 +12,7 @@ const DivisionSchema =new Schema(
                 index: true,
         },
         student_id: {
-            type: Schema.Types.ObjectId,
-                ref: 'Student',
+            type: [String],
         },
         student_scores: {
             type: [Number], // Array to store multiple scores for a student
