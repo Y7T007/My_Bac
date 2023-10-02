@@ -73,6 +73,8 @@ export default function Data() {
     if (!isFetched) {
       getDivisionData().then(r => { 
         const division=JSON.parse(r)
+
+        
         console.log("the division data is :",JSON.parse(r));
         setImportedDiv(
           division.student_id.map((studentId, index) => ({
