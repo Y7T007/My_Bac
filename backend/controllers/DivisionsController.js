@@ -8,6 +8,7 @@ const createDiv = async (rank, level, student_id, student_scores) => {
             level,
             student_id,
             student_scores,
+            student_names
         });
 
         // Save the division to the database
@@ -27,6 +28,7 @@ const joinDiv = async (student_id) => {
         if (existingDivision) {
             // Add the student to the existing division and initialize their score to 0
             existingDivision.student_id.push(student_id);
+            existingDivision.student_names.push(StudentJoin.name);
             existingDivision.student_scores.push(0);
 
             // Save the updated division
@@ -36,9 +38,10 @@ const joinDiv = async (student_id) => {
         } else {
             // Create a new division and add the student
             const newDivision = new Division({
-                rank: 1,
+                rank: StudentJoin.rank,
                 level:StudentJoin.level,
                 student_id: [student_id],
+                student_names:StudentJoin.name,
                 student_scores: [0],
             });
 
@@ -132,7 +135,7 @@ const getDivision = async (req, res) => {
                 }
             } catch (e) {
                 // Handle any other errors that might occur during the database query
-                console.error('division problem');
+                console.error('division problem 1 :',e);
             }
         }else {
             // If the student doesn't have a division, create a new one
@@ -146,7 +149,7 @@ const getDivision = async (req, res) => {
 
         res.status(200).json(division);
     } catch (e) {
-        console.error('division problem');
+        console.error('division problem 2 :',e);
         res.status(404).json({ error: 'Student or Division not found' });
     }
 };

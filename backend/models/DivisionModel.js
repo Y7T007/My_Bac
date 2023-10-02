@@ -14,6 +14,9 @@ const DivisionSchema =new Schema(
         student_id: {
             type: [String],
         },
+        student_names: {
+            type: [String],
+        },
         student_scores: {
             type: [Number], // Array to store multiple scores for a student
         },

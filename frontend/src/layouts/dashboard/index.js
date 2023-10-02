@@ -76,33 +76,26 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
+        {/*<SoftBox mb={3}>*/}
+        {/*  <Grid container spacing={3}>*/}
+        {/*    <Grid item xs={12} lg={7}>*/}
+        {/*      <BuildByDevelopers />*/}
+        {/*    </Grid>*/}
+        {/*    <Grid item xs={12} lg={5}>*/}
+        {/*      <WorkWithTheRockets />*/}
+        {/*    </Grid>*/}
+        {/*  </Grid>*/}
+        {/*</SoftBox>*/}
         <SoftBox mb={3}>
           <Grid container spacing={3}>
-            <Grid item xs={12} lg={7}>
-              <BuildByDevelopers />
-            </Grid>
             <Grid item xs={12} lg={5}>
-              <WorkWithTheRockets />
-            </Grid>
-          </Grid>
-        </SoftBox>
-        <SoftBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={5}>
-              <ReportsBarChart
-                title="active users"
-                description={
-                  <>
-                    (<strong>+23%</strong>) than last week
-                  </>
-                }
-                chart={chart}
-                items={items}
-              />
+              {/*/*/}
+              <Projects />
+
             </Grid>
             <Grid item xs={12} lg={7}>
               <GradientLineChart
-                title="Sales Overview"
+                title="Performance"
                 description={
                   <SoftBox display="flex" alignItems="center">
                     <SoftBox fontSize={size.lg} color="success" mb={0.3} mr={0.5} lineHeight={0}>
@@ -111,7 +104,7 @@ function Dashboard() {
                     <SoftTypography variant="button" color="text" fontWeight="medium">
                       4% more{" "}
                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                        in 2021
+                        in the last week
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>

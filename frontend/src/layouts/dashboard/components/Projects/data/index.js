@@ -6,9 +6,16 @@ import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftAvatar from "components/SoftAvatar";
 import SoftProgress from "components/SoftProgress";
-
+import React, { useState,useEffect } from 'react';
 // Images
 import logoXD from "assets/images/small-logos/logo-xd.svg";
+import api from '../../../../../Axios_api_cfg'; // Make sure to import Axios_api_cfg or any required dependencies
+// @mui material components
+
+// Soft UI Dashboard React components
+
+
+// Images
 import logoAtlassian from "assets/images/small-logos/logo-atlassian.svg";
 import logoSlack from "assets/images/small-logos/logo-slack.svg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
@@ -19,13 +26,13 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
-export default function data() {
+export default function Data() {
   const avatars = (members) =>
     members.map(([image, name]) => (
       <Tooltip key={name} title={name} placeholder="bottom">
         <SoftAvatar
           src={image}
-          alt="name"
+          alt={name}
           size="xs"
           sx={{
             border: ({ borders: { borderWidth }, palette: { white } }) =>
@@ -45,142 +52,54 @@ export default function data() {
       </Tooltip>
     ));
 
-  return {
-    columns: [
-      { name: "companies", align: "left" },
-      { name: "members", align: "left" },
-      { name: "budget", align: "center" },
-      { name: "completion", align: "center" },
-    ],
+    const [divisionData, setDivisionData] = useState([]);
+    const [importedDiv, setImportedDiv] = useState([]);
+    const [isFetched, setIsFetched] = useState(false);
 
-    rows: [
-      {
-        companies: [logoXD, "Soft UI XD Version"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team2, "Romina Hadid"],
-              [team3, "Alexander Smith"],
-              [team4, "Jessica Doe"],
-            ])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={60} color="info" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-      {
-        companies: [logoAtlassian, "Add Progress Track"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([
-              [team2, "Romina Hadid"],
-              [team4, "Jessica Doe"],
-            ])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $3,000
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={10} color="info" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-      {
-        companies: [logoSlack, "Fix Platform Errors"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team3, "Alexander Smith"],
-            ])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            Not set
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={100} color="success" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-      {
-        companies: [logoSpotify, "Launch our Mobile App"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([
-              [team4, "Jessica Doe"],
-              [team3, "Alexander Smith"],
-              [team2, "Romina Hadid"],
-              [team1, "Ryan Tompson"],
-            ])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $20,500
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={100} color="success" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-      {
-        companies: [logoJira, "Add the New Pricing Page"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe"]])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $500
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={25} color="info" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-      {
-        companies: [logoInvesion, "Redesign New Online Shop"],
-        members: (
-          <SoftBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team4, "Jessica Doe"],
-            ])}
-          </SoftBox>
-        ),
-        budget: (
-          <SoftTypography variant="caption" color="text" fontWeight="medium">
-            $2,000
-          </SoftTypography>
-        ),
-        completion: (
-          <SoftBox width="8rem" textAlign="left">
-            <SoftProgress value={40} color="info" variant="gradient" label={false} />
-          </SoftBox>
-        ),
-      },
-    ],
-  };
-}
+
+    // Function to fetch division data
+    const getDivisionData = async () => {
+      try {
+        const res = await api.get(`/division/get/${JSON.parse(localStorage.getItem('userInfos')).id}`);
+        const division = JSON.stringify(res.data);
+        setDivisionData(JSON.parse(division));
+        return division
+        
+      } catch (e) {
+        console.log(e);
+        setDivisionData([]);
+      }
+    };
+    if (!isFetched) {
+      getDivisionData().then(r => { 
+        const division=JSON.parse(r)
+        console.log("the division data is :",JSON.parse(r));
+        setImportedDiv(
+          division.student_id.map((studentId, index) => ({
+            players: [logoXD, division.student_names[index]],
+            scores: (
+              <SoftTypography variant="caption" color="text" fontWeight="medium">
+                {division.student_scores[index]}
+              </SoftTypography>
+            ),
+            
+          }))
+        )
+      });
+      setIsFetched(true);
+    }
+
+  
+    // Fetch division data when the component mounts
+    useEffect(() => {
+      getDivisionData();
+    }, []);
+  
+    return {
+      columns: [
+        { name: "players", align: "left" },
+        { name: "scores", align: "center" },
+      ],
+      rows: importedDiv,
+    };
+  }
