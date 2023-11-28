@@ -28,10 +28,108 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
+import api from "Axios_api_cfg";
 
+import { useEffect, useState } from "react";
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+
+  useEffect(() => {
+
+    // Check if the page is being loaded or reloaded
+      const userInfos = localStorage.getItem('userInfos');
+      if (!userInfos && window.location.href !== '/authentication/sign-in') {
+        // User is not logged in and not on the sign-in page, redirect to the sign-in page
+        window.location.href = '/authentication/sign-in';
+      }
+  }, []);
+
+
+let StudentRecords = [];
+let labels = [];
+let scores = [];
+const [gradientLineChartData,setGradientLineChartData]=useState({});
+const [isFetched,setisFetched]=useState(false);
+// Function to get the week number for a given date
+function getWeekNumber(date) {
+  const startDate = new Date(date.getFullYear(), 0, 1);
+  const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000)) + 1;
+  return Math.ceil(days / 7);
+}
+
+const fetchStudentRecords = async () => {
+  try {
+    let records=[];
+    const res = await api.get(`/quiz/records/get-records`);
+    records = JSON.stringify(res.data);
+    StudentRecords = JSON.parse(records);
+    console.log(StudentRecords);
+
+    // Now that the data is fetched, you can process it here
+    const dataWithWeek = StudentRecords.map((record) => {
+      const createdAt = new Date(record.createdAt);
+      const weekNumber = getWeekNumber(createdAt);
+      return { ...record, weekNumber };
+    });
+
+    const groupedByWeek = dataWithWeek.reduce((acc, record) => {
+      if (!acc[record.weekNumber]) {
+        acc[record.weekNumber] = [];
+      }
+      acc[record.weekNumber].push(record);
+      return acc;
+    }, {});
+
+    const scoresByWeek = Object.keys(groupedByWeek).map((weekNumber) => ({
+      weekNumber: parseInt(weekNumber, 10),
+      totalScore: groupedByWeek[weekNumber].reduce((sum, record) => sum + record.Score, 0),
+    }));
+
+    console.log('score by weeks is:', scoresByWeek);
+
+    labels = scoresByWeek.map((weekData) => `Week ${weekData.weekNumber}`);
+    scores = scoresByWeek.map((weekData) => weekData.totalScore);
+    console.log('count are \t\t\t\t',JSON.stringify(StudentRecords));
+
+    if(JSON.stringify(StudentRecords)!=='[]'){
+      setGradientLineChartData ( {
+        labels,
+        datasets: [
+          {
+            label: "Score",
+            color: "dark",
+            data: scores,
+          },
+        ],
+      });
+      console.log('\t\t\t the final data is:', gradientLineChartData);
+    }else{
+      setGradientLineChartData ( {
+        labels:['No Data: you should pass a quiz to begin',''],
+        datasets: [
+          {
+            label: "Score",
+            color: "dark",
+            data: [0,0,0,0,0,0],
+          },
+        ],
+      });
+    }
+  } catch (e) {
+    console.log("error: ", e);
+  }
+};
+
+if (!isFetched) {
+  fetchStudentRecords().then((r) => {
+    console.log('returned values are :',r);
+
+
+
+    setisFetched(true);
+
+  })}
 
   return (
     <DashboardLayout>
@@ -102,9 +200,9 @@ function Dashboard() {
                       <Icon className="font-bold">arrow_upward</Icon>
                     </SoftBox>
                     <SoftTypography variant="button" color="text" fontWeight="medium">
-                      4% more{" "}
+                      Your score{" "}
                       <SoftTypography variant="button" color="text" fontWeight="regular">
-                        in the last week
+                        in the last weeks
                       </SoftTypography>
                     </SoftTypography>
                   </SoftBox>

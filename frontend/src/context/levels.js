@@ -1,11 +1,29 @@
+// Function to generate a random color in hexadecimal format
+function getRandomColor() {
+    const brightness = 20 + Math.floor(Math.random() * 30); // Adjust brightness (20-50)
+    const saturation = 30 + Math.floor(Math.random() * 40); // Adjust saturation (30-70)
+
+    // Convert brightness and saturation to percentage values
+    const brightnessPercent = brightness + "%";
+    const saturationPercent = saturation + "%";
+
+    // Generate a random hue (0-360 degrees) for variety
+    const hue = Math.floor(Math.random() * 360);
+
+    // Create an HSL color string
+    return `hsl(${hue}, ${saturationPercent}, ${brightnessPercent})`;
+}
+
+
 const levels = [
     {
-        name: 'Tronc commun (Classe de Seconde)',
+        name: 'Tronc commun (Sc)',
         levelId: 'tc-s',
         subjects: [
             {
                 name: 'Mathématiques',
-                color: '1e5aff',
+                key: 'math',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Algèbre' },
                     { id: 2, name: 'Géométrie' },
@@ -17,7 +35,8 @@ const levels = [
             },
             {
                 name: 'Français',
-                color: '1e5aff',
+                key: 'francais',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Littérature française' },
                     { id: 2, name: 'Grammaire et conjugaison' },
@@ -29,7 +48,8 @@ const levels = [
             },
             {
                 name: 'Physique-Chimie',
-                color: '1e5aff',
+                key: 'physique-chimie',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Mécanique' },
                     { id: 2, name: 'Électricité et magnétisme' },
@@ -41,7 +61,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie',
-                color: '1e5aff',
+                key: 'histoire-geographie',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Histoire ancienne' },
                     { id: 2, name: 'Histoire médiévale' },
@@ -53,7 +74,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT)',
-                color: '1e5aff',
+                key: 'svt',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Biologie cellulaire' },
                     { id: 2, name: 'Génétique' },
@@ -65,7 +87,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Anglais)',
-                color: '1e5aff',
+                key: 'langues-etrangeres',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Compréhension écrite et orale' },
                     { id: 2, name: 'Expression orale et écrite' },
@@ -77,13 +100,15 @@ const levels = [
             }
         ]
     },
+    
     {
-        name: 'Tronc commun (Classe de Seconde)',
+        name: 'Tronc commun (L)',
         levelId: 'tc-l',
         subjects: [
             {
                 name: 'Mathématiques',
-                color: '1e5aff',
+                key: 'math',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Algèbre' },
                     { id: 2, name: 'Géométrie' },
@@ -95,7 +120,8 @@ const levels = [
             },
             {
                 name: 'Français',
-                color: '1e5aff',
+                key: 'francais',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Littérature française' },
                     { id: 2, name: 'Grammaire et conjugaison' },
@@ -107,7 +133,8 @@ const levels = [
             },
             {
                 name: 'Physique-Chimie',
-                color: '1e5aff',
+                key: 'physique-chimie',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Mécanique' },
                     { id: 2, name: 'Électricité et magnétisme' },
@@ -119,7 +146,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie',
-                color: '1e5aff',
+                key: 'histoire-geographie',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Histoire ancienne' },
                     { id: 2, name: 'Histoire médiévale' },
@@ -131,7 +159,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT)',
-                color: '1e5aff',
+                key: 'svt',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Biologie cellulaire' },
                     { id: 2, name: 'Génétique' },
@@ -143,7 +172,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Anglais)',
-                color: '1e5aff',
+                key: 'langues-etrangeres',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Compréhension écrite et orale' },
                     { id: 2, name: 'Expression orale et écrite' },
@@ -155,6 +185,7 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '1er Bac (Classe de Première)',
         levelId: '1bac-s',
@@ -239,6 +270,7 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '1er Bac (Classe de Première)',
         levelId: '1bac-l',
@@ -323,6 +355,7 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '2ème Bac (Classe de Terminale)',
         levelId: '2bac-sx',
@@ -330,7 +363,7 @@ const levels = [
             {
                 name: 'Mathématiques Avancées',
                 key:'Maths',
-                color: '1e5aff',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Analyse complexe' },
                     { id: 2, name: 'Algèbre avancée' },
@@ -342,7 +375,7 @@ const levels = [
             },
             {
                 name: 'Sciences de l\'Ingénieur',
-                color: '1e5aff',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Mécanique des fluides' },
                     { id: 2, name: 'Résistance des matériaux' },
@@ -354,7 +387,8 @@ const levels = [
             },
             {
                 name: 'Philosophie approfondie',
-                color: '1e5aff',
+                key:'Philo',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Philosophie politique' },
                     { id: 2, name: 'Épistémologie' },
@@ -366,7 +400,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie avancée',
-                color: '1e5aff',
+                key:'HG',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Histoire contemporaine approfondie' },
                     { id: 2, name: 'Géographie humaine' },
@@ -378,7 +413,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
-                color: '1e5aff',
+                key:'SVT',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Génétique moléculaire' },
                     { id: 2, name: 'Biologie moléculaire' },
@@ -390,7 +426,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Allemand)',
-                color: '1e5aff',
+                key:'Langues',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Littérature allemande' },
                     { id: 2, name: 'Expression écrite avancée' },
@@ -402,92 +439,15 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '2ème Bac (Classe de Terminale)',
         levelId: '2bac-spc',
         subjects: [
             {
                 name: 'Mathématiques Avancées',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Analyse complexe' },
-                    { id: 2, name: 'Algèbre avancée' },
-                    { id: 3, name: 'Topologie' },
-                    { id: 4, name: 'Probabilités avancées' },
-                    { id: 5, name: 'Logique mathématique' },
-                    { id: 6, name: 'Théorie des nombres' }
-                ]
-            },
-            {
-                name: 'Sciences de l\'Ingénieur',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Mécanique des fluides' },
-                    { id: 2, name: 'Résistance des matériaux' },
-                    { id: 3, name: 'Automatique et régulation' },
-                    { id: 4, name: 'Électrotechnique' },
-                    { id: 5, name: 'Informatique et programmation' },
-                    { id: 6, name: 'Conception mécanique' }
-                ]
-            },
-            {
-                name: 'Philosophie approfondie',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Philosophie politique' },
-                    { id: 2, name: 'Épistémologie' },
-                    { id: 3, name: 'Philosophie du langage' },
-                    { id: 4, name: 'Philosophie de l\'histoire' },
-                    { id: 5, name: 'Philosophie des sciences sociales' },
-                    { id: 6, name: 'Métaphysique avancée' }
-                ]
-            },
-            {
-                name: 'Histoire-Géographie avancée',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Histoire contemporaine approfondie' },
-                    { id: 2, name: 'Géographie humaine' },
-                    { id: 3, name: 'Géopolitique avancée' },
-                    { id: 4, name: 'Histoire de l\'art' },
-                    { id: 5, name: 'Histoire des idées politiques' },
-                    { id: 6, name: 'Géographie économique' }
-                ]
-            },
-            {
-                name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Génétique moléculaire' },
-                    { id: 2, name: 'Biologie moléculaire' },
-                    { id: 3, name: 'Neurobiologie' },
-                    { id: 4, name: 'Biologie évolutive' },
-                    { id: 5, name: 'Paléontologie' },
-                    { id: 6, name: 'Écologie avancée' }
-                ]
-            },
-            {
-                name: 'Langues étrangères (ex: Allemand)',
-                color: '1e5aff',
-                Chapters: [
-                    { id: 1, name: 'Littérature allemande' },
-                    { id: 2, name: 'Expression écrite avancée' },
-                    { id: 3, name: 'Langue orale et débats' },
-                    { id: 4, name: 'Civilisation germanique' },
-                    { id: 5, name: 'Traduction spécialisée' },
-                    { id: 6, name: 'Langue des affaires' }
-                ]
-            }
-        ]
-    },
-    {
-        name: '2ème Bac (Classe de Terminale)',
-        levelId: '2bac-ssma',
-        subjects: [
-            {
-                name: 'Mathématiques Avancées',
                 key:'Maths',
-                color: '#1e5aff',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Analyse complexe' },
                     { id: 2, name: 'Algèbre avancée' },
@@ -500,6 +460,91 @@ const levels = [
             {
                 name: 'Sciences de l\'Ingénieur',
                 key:'SI',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Mécanique des fluides' },
+                    { id: 2, name: 'Résistance des matériaux' },
+                    { id: 3, name: 'Automatique et régulation' },
+                    { id: 4, name: 'Électrotechnique' },
+                    { id: 5, name: 'Informatique et programmation' },
+                    { id: 6, name: 'Conception mécanique' }
+                ]
+            },
+            {
+                name: 'Philosophie approfondie',
+                key:'Philo',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Philosophie politique' },
+                    { id: 2, name: 'Épistémologie' },
+                    { id: 3, name: 'Philosophie du langage' },
+                    { id: 4, name: 'Philosophie de l\'histoire' },
+                    { id: 5, name: 'Philosophie des sciences sociales' },
+                    { id: 6, name: 'Métaphysique avancée' }
+                ]
+            },
+            {
+                name: 'Histoire-Géographie avancée',
+                key:'HG',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Histoire contemporaine approfondie' },
+                    { id: 2, name: 'Géographie humaine' },
+                    { id: 3, name: 'Géopolitique avancée' },
+                    { id: 4, name: 'Histoire de l\'art' },
+                    { id: 5, name: 'Histoire des idées politiques' },
+                    { id: 6, name: 'Géographie économique' }
+                ]
+            },
+            {
+                name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
+                key:'SVT',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Génétique moléculaire' },
+                    { id: 2, name: 'Biologie moléculaire' },
+                    { id: 3, name: 'Neurobiologie' },
+                    { id: 4, name: 'Biologie évolutive' },
+                    { id: 5, name: 'Paléontologie' },
+                    { id: 6, name: 'Écologie avancée' }
+                ]
+            },
+            {
+                name: 'Langues étrangères (ex: Allemand)',
+                key:'Langues',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Littérature allemande' },
+                    { id: 2, name: 'Expression écrite avancée' },
+                    { id: 3, name: 'Langue orale et débats' },
+                    { id: 4, name: 'Civilisation germanique' },
+                    { id: 5, name: 'Traduction spécialisée' },
+                    { id: 6, name: 'Langue des affaires' }
+                ]
+            }
+        ]
+    },
+    
+    {
+        name: '2ème Bac (Classe de Terminale)',
+        levelId: '2bac-ssma',
+        subjects: [
+            {
+                name: 'Mathématiques Avancées',
+                key: 'Maths',
+                color: getRandomColor(),
+                Chapters: [
+                    { id: 1, name: 'Analyse complexe' },
+                    { id: 2, name: 'Algèbre avancée' },
+                    { id: 3, name: 'Topologie' },
+                    { id: 4, name: 'Probabilités avancées' },
+                    { id: 5, name: 'Logique mathématique' },
+                    { id: 6, name: 'Théorie des nombres' }
+                ]
+            },
+            {
+                name: 'Sciences de l\'Ingénieur',
+                key: 'SI',
                 color: '#b449ff',
                 Chapters: [
                     { id: 1, name: 'Mécanique des fluides' },
@@ -512,8 +557,8 @@ const levels = [
             },
             {
                 name: 'Philosophie approfondie',
+                key: 'Philo',
                 color: '#00825d',
-                key:'Philo',
                 Chapters: [
                     { id: 1, name: 'Philosophie politique' },
                     { id: 2, name: 'Épistémologie' },
@@ -525,8 +570,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie avancée',
+                key: 'HG',
                 color: '#6ab04c',
-                key:'HG',
                 Chapters: [
                     { id: 1, name: 'Histoire contemporaine approfondie' },
                     { id: 2, name: 'Géographie humaine' },
@@ -538,8 +583,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
+                key: 'SVT',
                 color: '#ff7675',
-                key:'SVT',
                 Chapters: [
                     { id: 1, name: 'Génétique moléculaire' },
                     { id: 2, name: 'Biologie moléculaire' },
@@ -551,8 +596,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Allemand)',
+                key: 'Ang',
                 color: '#ffa94d',
-                key:'Ang',
                 Chapters: [
                     { id: 1, name: 'Littérature allemande' },
                     { id: 2, name: 'Expression écrite avancée' },
@@ -564,13 +609,15 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '2ème Bac (Classe de Terminale)',
         levelId: '2bac-ssmb',
         subjects: [
             {
                 name: 'Mathématiques Avancées',
-                color: '1e5aff',
+                key: 'Maths',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Analyse complexe' },
                     { id: 2, name: 'Algèbre avancée' },
@@ -582,7 +629,8 @@ const levels = [
             },
             {
                 name: 'Sciences de l\'Ingénieur',
-                color: '1e5aff',
+                key: 'SI',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Mécanique des fluides' },
                     { id: 2, name: 'Résistance des matériaux' },
@@ -594,7 +642,8 @@ const levels = [
             },
             {
                 name: 'Philosophie approfondie',
-                color: '1e5aff',
+                key: 'Philo',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Philosophie politique' },
                     { id: 2, name: 'Épistémologie' },
@@ -606,7 +655,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie avancée',
-                color: '1e5aff',
+                key: 'HG',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Histoire contemporaine approfondie' },
                     { id: 2, name: 'Géographie humaine' },
@@ -618,7 +668,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
-                color: '1e5aff',
+                key: 'SVT',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Génétique moléculaire' },
                     { id: 2, name: 'Biologie moléculaire' },
@@ -630,7 +681,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Allemand)',
-                color: '1e5aff',
+                key: 'Lang',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Littérature allemande' },
                     { id: 2, name: 'Expression écrite avancée' },
@@ -642,14 +694,15 @@ const levels = [
             }
         ]
     },
+    
     {
         name: '2ème Bac (Classe de Terminale)',
         levelId: '2bac-l',
         subjects: [
             {
                 name: 'Mathématiques Avancées',
-                key:'Maths',
-                color: '1e5aff',
+                key: 'Maths',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Analyse complexe' },
                     { id: 2, name: 'Algèbre avancée' },
@@ -661,7 +714,8 @@ const levels = [
             },
             {
                 name: 'Sciences de l\'Ingénieur',
-                color: '1e5aff',
+                key: 'SI',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Mécanique des fluides' },
                     { id: 2, name: 'Résistance des matériaux' },
@@ -673,7 +727,8 @@ const levels = [
             },
             {
                 name: 'Philosophie approfondie',
-                color: '1e5aff',
+                key: 'Philo',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Philosophie politique' },
                     { id: 2, name: 'Épistémologie' },
@@ -685,7 +740,8 @@ const levels = [
             },
             {
                 name: 'Histoire-Géographie avancée',
-                color: '1e5aff',
+                key: 'HG',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Histoire contemporaine approfondie' },
                     { id: 2, name: 'Géographie humaine' },
@@ -697,7 +753,8 @@ const levels = [
             },
             {
                 name: 'Sciences de la Vie et de la Terre (SVT) approfondies',
-                color: '1e5aff',
+                key: 'SVT',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Génétique moléculaire' },
                     { id: 2, name: 'Biologie moléculaire' },
@@ -709,7 +766,8 @@ const levels = [
             },
             {
                 name: 'Langues étrangères (ex: Allemand)',
-                color: '1e5aff',
+                key: 'Lang',
+                color: getRandomColor(),
                 Chapters: [
                     { id: 1, name: 'Littérature allemande' },
                     { id: 2, name: 'Expression écrite avancée' },
@@ -721,6 +779,7 @@ const levels = [
             }
         ]
     }
+    
 ];
 
 export default levels;

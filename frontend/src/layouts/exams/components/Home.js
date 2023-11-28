@@ -15,7 +15,6 @@ function Home() {
     { name: "Mathematics", link: "/exams/Mathematics/", color: "#1e5aff" },
     { name: "Physics", link: "/exams/quiz/A2", color: "#cc3434" },
     { name: "French", link: "/exams/quiz/B1", color: "#cc9250" },
-    // Add more level boxes here
   ];
     sessionStorage.setItem('lifes',5)
 

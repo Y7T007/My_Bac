@@ -146,5 +146,36 @@ const getRecord= async (req, res)=>{
     }
 }
 
+const getPerformance= async (req, res)=>{
+    try {
+        // console.log(req)
+        const token = req.headers.authorization.split(' ')[1]; // Extract the token from headers
 
-module.exports = { getQuiz , createQuiz ,getAllQuiz,getQuizByLevel,getQuizByLevelBySubject,saveRecord,getRecord};
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_PASS); // Verify the token
+
+            req.userId = decoded.userId; // Store the decoded user ID in the request object
+        } catch (err) {
+            if (err.name === 'TokenExpiredError') {
+                // Handle expired token error
+                return res.status(401).json({ message: 'Token expired' });
+            }
+
+            console.log('Error:', err);
+        }
+
+        const userId = req.userId;
+        console.log(userId);
+
+        const records = await QuizRecord.find({StudentId:userId});
+
+
+        res.status(200).send(records);
+    } catch (error) {
+        console.error('Error fetching records:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+
+module.exports = { getPerformance,getQuiz , createQuiz ,getAllQuiz,getQuizByLevel,getQuizByLevelBySubject,saveRecord,getRecord};

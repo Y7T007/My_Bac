@@ -29,20 +29,20 @@ function OrdersOverview() {
     <Card className="h-100">
       <SoftBox pt={3} px={3}>
         <SoftTypography variant="h6" fontWeight="medium">
-          Orders overview
+          Follow us
         </SoftTypography>
         <SoftBox mt={1} mb={2}>
           <SoftTypography variant="button" color="text" fontWeight="regular">
             <SoftTypography display="inline" variant="body2" verticalAlign="middle">
               <Icon sx={{ fontWeight: "bold", color: ({ palette: { success } }) => success.main }}>
-                arrow_upward
+                arrow_downward
               </Icon>
             </SoftTypography>
             &nbsp;
             <SoftTypography variant="button" color="text" fontWeight="medium">
-              24%
+              
             </SoftTypography>{" "}
-            this month
+            On our social medias
           </SoftTypography>
         </SoftBox>
       </SoftBox>

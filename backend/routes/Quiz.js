@@ -1,5 +1,5 @@
 const express = require("express");
-const { getQuiz, createQuiz, getAllQuiz,getQuizByLevel,getQuizByLevelBySubject,saveRecord,getRecord} = require('../controllers/QuizController');
+const { getQuiz,getPerformance, createQuiz, getAllQuiz,getQuizByLevel,getQuizByLevelBySubject,saveRecord,getRecord} = require('../controllers/QuizController');
 const router = express.Router();
 
 // Get Quizzes
@@ -12,6 +12,7 @@ router.post('/create-quiz', createQuiz);
 // Post/Get Records
 router.post('/records/save-record',saveRecord);
 router.get('/records/get-records',getRecord);
+router.get('/records/get-performance',getPerformance);
 
 
 module.exports = router;

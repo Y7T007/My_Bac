@@ -11,12 +11,13 @@ function HomeQuiz() {
   const { subject } = useParams();
   const level = JSON.parse(localStorage.getItem('userInfos')).level;
   const subjectInfos = levels.find((l) => l.levelId === level).subjects.find(l => l.key === subject);
-  const [isFetched, setIsFetched] = useState(false);
+  const [isQuizFetched, setIsFetched] = useState(false);
   const [actualQuiz, setActualQuiz] = useState([]);
   const [StudentRecords, setStudentRecords] = useState([]);
-
+  console.log('hellow im insssidddde the home quiiiiz')
   const fetchQuiz = async () => {
     try {
+      console.log(subjectInfos.key,'\t heeey\t',level);
       const res = await api.get(`/quiz/getquiz/${level}/${subjectInfos.key}`);
       const quiz = JSON.stringify(res.data);
       console.log("from hoomequiz :", JSON.parse(quiz));
@@ -43,7 +44,7 @@ function HomeQuiz() {
   sessionStorage.removeItem('selectedAnswers');
 
 
-  if (!isFetched) {
+  if (!isQuizFetched) {
     fetchQuiz().then(r => { console.log(r);localStorage.setItem('tempQuiz',(r)) });
     fetchStudentRecords().then(r => console.log(r) )
     setIsFetched(true);

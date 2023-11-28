@@ -60,33 +60,49 @@ export default function Data() {
     // Function to fetch division data
     const getDivisionData = async () => {
       try {
-        const res = await api.get(`/division/get/${JSON.parse(localStorage.getItem('userInfos')).id}`);
-        const division = JSON.stringify(res.data);
-        setDivisionData(JSON.parse(division));
-        return division
+        const userId = JSON.parse(localStorage.getItem('userInfos')).id;
+        if (userId != null) {
+          const res = await api.get(`/division/get/${userId}`);
+          const division = JSON.stringify(res.data);
+          setDivisionData(JSON.parse(division));
+          return division;
+        }
         
       } catch (e) {
         console.log(e);
         setDivisionData([]);
       }
     };
+    let division={}
     if (!isFetched) {
       getDivisionData().then(r => { 
-        const division=JSON.parse(r)
+        console.log(r);
+        if  (r.status===404){
+          division= {
+            players: ['', 'No user found, please login first'],
+              scores: (
+                <SoftTypography variant="caption" color="text" fontWeight="medium">
+                  _
+                </SoftTypography>)
+          
+        }
+      }else{
+          division=JSON.parse(r)
+          console.log("the division data is :",JSON.parse(r));
+          setImportedDiv(
+            division.student_id.map((studentId, index) => ({
+              players: [logoXD, division.student_names[index]],
+              scores: (
+                <SoftTypography variant="caption" color="text" fontWeight="medium">
+                  {division.student_scores[index]}
+                </SoftTypography>
+              ),
+              
+            }))
+          )
+        }
 
         
-        console.log("the division data is :",JSON.parse(r));
-        setImportedDiv(
-          division.student_id.map((studentId, index) => ({
-            players: [logoXD, division.student_names[index]],
-            scores: (
-              <SoftTypography variant="caption" color="text" fontWeight="medium">
-                {division.student_scores[index]}
-              </SoftTypography>
-            ),
-            
-          }))
-        )
       });
       setIsFetched(true);
     }
