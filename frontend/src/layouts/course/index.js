@@ -71,6 +71,15 @@ Function.propTypes = {
 
 
 function CourseByCourse() {
+  useEffect(() => {
+    
+    // Check if the page is being loaded or reloaded
+      const userInfos = localStorage.getItem('userInfos');
+      if (!userInfos && window.location.href !== '/authentication/sign-in') {
+        // User is not logged in and not on the sign-in page, redirect to the sign-in page
+        window.location.href = '/authentication/sign-in';
+      }
+  }, []);
     const level = JSON.parse(localStorage.getItem('userInfos')).level;
     console.log(level)
 

@@ -12,6 +12,7 @@ const TokenGenerator=require("../utils/TokenGenerator").modules.TokenGenerator;
 const AddNewStudent = async (req, res) => {
 
     try {
+        console.log('form is submitted :')
         const formData = req.body;
         if (!formData.name || !formData.email || !formData.password || !formData.city || !formData.level) {
             return res.status(400).json({ message: 'Required fields are missing' });
@@ -50,6 +51,7 @@ const AddNewStudent = async (req, res) => {
 const Login = async (req, res) => {
     try {
         const formData = req.body;
+        console.log('login form received')
         if (!formData.email || !formData.password) {
             return res.status(400).json({ message: 'Required fields are missing' });
         }

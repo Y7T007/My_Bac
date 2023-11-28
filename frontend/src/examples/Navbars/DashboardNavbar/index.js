@@ -116,12 +116,23 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   function stringAvatar(string) {
     const name = string ?? 'Wait Response';
+    const splitName = name.split(' ');
+
+    let children;
+
+    if (splitName.length === 2) {
+      // If the name contains two words, take the first letter of each word
+      children = `${splitName[0][0].toUpperCase()}${splitName[1][0].toUpperCase()}`;
+    } else {
+      // If the name contains one word or more than two words, use the original name
+      children = name[0].toUpperCase();
+    }
 
     return {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      children: children,
     };
   }
   useEffect(() => {

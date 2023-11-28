@@ -51,6 +51,7 @@ function Result() {
   useEffect( () => {
     if (isRecordSaved) {
       console.log(recordData,JSON.parse(localStorage.getItem('userInfos')).id)
+      percentile= (percentile /allAnswers.length)*20; 
        api.post('/quiz/records/save-record', {
          StudentId: JSON.parse(localStorage.getItem('userInfos')).id,
          Score: percentile,

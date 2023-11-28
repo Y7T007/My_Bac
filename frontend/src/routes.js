@@ -190,79 +190,86 @@ const routes = [
   //       </DashboardLayout>
   //   ),
   // },
-  {
-    type: "collapse",
-    name: "Planning",
-    key: "planning",
-    route: "/planning",
-    icon: <CalendarMonthTwoToneIcon size="12px" />,
-    component: <VirtualReality />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Notes",
-    key: "notes",
-    route: "/notes",
-    icon: <EditNoteTwoToneIcon size="12px" />,
-    component: <Notes />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Forums",
-    key: "forums",
-    route: "/forums",
-    icon: <ForumTwoToneIcon size="12px" />,
-    component: <RTL />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Groups",
-    key: "groups",
-    route: "/groups",
-    icon: <PeopleAltTwoToneIcon size="12px" />,
-    component: <RTL />,
-    noCollapse: true,
-  },
+
+
+
+  //   {
+  //   type: "collapse",
+  //   name: "Planning",
+  //   key: "planning",
+  //   route: "/planning",
+  //   icon: <CalendarMonthTwoToneIcon size="12px" />,
+  //   component: <VirtualReality />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Notes",
+  //   key: "notes",
+  //   route: "/notes",
+  //   icon: <EditNoteTwoToneIcon size="12px" />,
+  //   component: <Notes />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Forums",
+  //   key: "forums",
+  //   route: "/forums",
+  //   icon: <ForumTwoToneIcon size="12px" />,
+  //   component: <RTL />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Groups",
+  //   key: "groups",
+  //   route: "/groups",
+  //   icon: <PeopleAltTwoToneIcon size="12px" />,
+  //   component: <RTL />,
+  //   noCollapse: true,
+  // },
   { type: "title", title: "Account Pages", key: "account-pages" },
-  {
+    localStorage.getItem('jwt') != null?
+
+{
     type: "collapse",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
-    icon: <CustomerSupport size="12px" />,
-    component: <Profile />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/authentication/sign-in",
-    icon: <Document size="12px" />,
-    component: <SignIn />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Out",
+        name: "Sign Out",
     key: "sign-out",
     route: "/authentication/sign-out",
     icon: <Document size="12px" />,
     component: <SignOut />,
     noCollapse: true,
-  },
-  {
+}
+:
+// {
+//     type: "collapse",
+//         name: "Profile",
+//     key: "profile",
+//     route: "/profile",
+//     icon: <CustomerSupport size="12px" />,
+//     component: <Profile />,
+//     noCollapse: true,
+// },
+{
     type: "collapse",
-    name: "Sign Up",
+        name: "Sign In",
+    key: "sign-in",
+    route: "/authentication/sign-in",
+    icon: <Document size="12px" />,
+    component: <SignIn />,
+    noCollapse: true,
+},
+{
+    type: "collapse",
+        name: "Sign Up",
     key: "sign-up",
     route: "/authentication/sign-up",
     icon: <SpaceShip size="12px" />,
     component: <SignUp />,
     noCollapse: true,
-  },
+}
+
 ];
 
 export default routes;

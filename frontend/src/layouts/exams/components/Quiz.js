@@ -10,7 +10,8 @@ import NoLivesRemaining from "./NoLivesRemaining";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import StepProgressBar from "./StepProgressBar";
-
+import 'katex/dist/katex.min.css'; // Import the KaTeX CSS
+import { BlockMath, InlineMath } from 'react-katex';
 
 function Quiz() {
   const { subject, level, id } = useParams();
@@ -27,6 +28,7 @@ function Quiz() {
   const [score,setScore]=useState(Number(sessionStorage.getItem('score')))
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isResult, setIsResult] = useState(false);
+  const [NumberOfQuestions, setNumberOfQuestions] = useState(20);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -43,6 +45,8 @@ function Quiz() {
     // Retrieve currentQuestion and selectedAnswers from local storage
     const storedCurrentQuestion = sessionStorage.getItem('currentQuestion');
     const storedSelectedAnswers = sessionStorage.getItem('selectedAnswers');
+    setNumberOfQuestions(questions[level].length);
+
     if (storedCurrentQuestion !== null) {
       setCurrentQuestion(Number(storedCurrentQuestion));
     }
@@ -161,7 +165,7 @@ function Quiz() {
 
   useEffect(() => {
     const progressBarContainer = document.querySelector('.progress-bar');
-    const scrollPercentage = (sessionStorage.getItem('currentQuestion')/20)*100 -10; // Change this to your desired initial scroll percentage
+    const scrollPercentage = (sessionStorage.getItem('currentQuestion')/NumberOfQuestions)*100 -10; // Change this to your desired initial scroll percentage
     console.log('scroll percent : ', scrollPercentage)
     const containerWidth = progressBarContainer.scrollWidth;
     const scrollTo = (containerWidth * scrollPercentage) / 100;
@@ -195,7 +199,7 @@ function Quiz() {
           <div className="StepProgressBar" >
 
             {/* Your other components */}
-            <StepProgressBar steps={20} currentStep={currentQuestion } answers={JSON.parse(sessionStorage.getItem('selectedAnswers'))?JSON.parse(sessionStorage.getItem('selectedAnswers')):[{ answer: '2', trueAnswer: false }]} />
+            <StepProgressBar steps={NumberOfQuestions} currentStep={currentQuestion } answers={JSON.parse(sessionStorage.getItem('selectedAnswers'))?JSON.parse(sessionStorage.getItem('selectedAnswers')):[{ answer: '2', trueAnswer: false }]} />
 
            </div>
           </div>
@@ -216,7 +220,7 @@ function Quiz() {
           {/*  {questions[level].length} questions*/}
           {/*</p>*/}
           <div className="score">
-            Score: <strong>{score}/20</strong>
+            Score: <strong>{score}/{NumberOfQuestions}</strong>
           </div>
           {window.screen.width<500?console.log(window.screen.width,'inferior'):console.log(window.screen.width,'superior')}
         </div>
@@ -225,7 +229,7 @@ function Quiz() {
         <div className="question-text">
           <h2 className="question-title">Question: {currentQuestion + 1}</h2>
           <h3 className="question">
-            {questions[level][currentQuestion].question}
+            <BlockMath math={questions[level][currentQuestion].question} />
           </h3>
         </div>
         <div className="progress-icon">

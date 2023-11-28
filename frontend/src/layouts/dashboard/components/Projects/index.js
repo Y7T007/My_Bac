@@ -1,17 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 import { useState } from "react";
 
@@ -38,6 +25,7 @@ function Projects() {
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
 
+
   const renderMenu = (
     <Menu
       id="simple-menu"
@@ -60,11 +48,12 @@ function Projects() {
   );
 
   return (
-    <Card>
-      <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+    <div style={{ height: "100%" }}> {/* Set the container height to 100% */}
+      <Card style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+        <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
         <SoftBox>
           <SoftTypography variant="h6" gutterBottom>
-            Projects
+            Divisions
           </SoftTypography>
           <SoftBox display="flex" alignItems="center" lineHeight={0}>
             <Icon
@@ -77,7 +66,7 @@ function Projects() {
               done
             </Icon>
             <SoftTypography variant="button" fontWeight="regular" color="text">
-              &nbsp;<strong>30 done</strong> this month
+              &nbsp;<strong>Your ranking</strong> this week
             </SoftTypography>
           </SoftBox>
         </SoftBox>
@@ -88,19 +77,24 @@ function Projects() {
         </SoftBox>
         {renderMenu}
       </SoftBox>
-      <SoftBox
-        sx={{
-          "& .MuiTableRow-root:not(:last-child)": {
-            "& td": {
-              borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                `${borderWidth[1]} solid ${borderColor}`,
+        <SoftBox
+          style={{
+            flex: 1, /* Make this part take remaining space */
+            overflow: "auto", /* Add scroll if content overflows */
+          }}
+          sx={{
+            "& .MuiTableRow-root:not(:last-child)": {
+              "& td": {
+                borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                  `${borderWidth[1]} solid ${borderColor}`,
+              },
             },
-          },
-        }}
-      >
-        <Table columns={columns} rows={rows} />
-      </SoftBox>
-    </Card>
+          }}
+        >
+          <Table columns={columns} rows={rows} />
+        </SoftBox>
+      </Card>
+    </div>
   );
 }
 
